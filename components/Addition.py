@@ -1,6 +1,7 @@
-from components import operator
-class Addition(operator):
-    def __init__(self, side : int ,startPointx: int, startPointy: int):
+import pygame
+from components.operator import Operator
+class Addition(Operator):
+    def __init__(self, side: int, startPointx: int, startPointy: int):
         """
         ------------------------------------------------------------------
         __init__: Constructs the Addition object
@@ -26,7 +27,7 @@ class Addition(operator):
             sum of num1 and num2.
         """        
         return num1 + num2
-    def draw():
+    def draw(self, screen):
         """
         ------------------------------------------------------------------
         draw: Draws the Addition Operator
@@ -34,10 +35,9 @@ class Addition(operator):
         """  
         points = []
         points = [(self.startPointx, self.startPointy),
-                        (self.startPointx, self.startPointy + side),
-                        (self.startPointx + side, self.startPointy + side/2)]
+                        (self.startPointx, self.startPointy + self.side),
+                        (self.startPointx + self.side, self.startPointy + self.side/2)]
         red = (255, 0, 0)                
-        pygame.draw.polygon(window, red, points)
-        return
+        pygame.draw.polygon(screen, red, points)
         
     
