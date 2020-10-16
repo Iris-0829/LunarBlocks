@@ -1,4 +1,4 @@
-from components.Operands import Operand
+from components.Operand import Operand
 from typing import TypeVar, Generic, Tuple
 
 shape = TypeVar('shape')
