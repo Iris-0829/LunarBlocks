@@ -13,6 +13,9 @@ class Shape(Operand, Generic[shape]):
         """
         return Shape(self.width, self.height, self.color)
 
+    def equals(self, s: shape) -> bool:
+        return self.width == s.width and self.height == s.height and self.color == s.color
+
     def add(self, s: shape) -> shape:
         """
         Adds the width and height to the original shape.
