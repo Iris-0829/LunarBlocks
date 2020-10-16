@@ -1,8 +1,10 @@
 import pygame
+from components.Addition import *
+
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
-grid_square_size = 15 #10x10px  
+grid_square_size = 15 #15x15px  
 FPS = 30
 pygame.init()
 fps_clock = pygame.time.Clock()
@@ -40,19 +42,14 @@ for i in range(10):
     rectSet.append(pygame.Rect(20*i, 20*i, 30, 30))
 
 button = pygame.Rect(300, 400, 150, 75)
-
+add = Addition(50, 50, 50)
 
 def game_loop():
     dragging = False
     dragged = None
     dragged_init_pos = None
     selected = None
-
-
-    points = None
-
     drawing = False
-
     running = True
     while running:
         for event in pygame.event.get():
@@ -103,6 +100,9 @@ def game_loop():
             for line in lineSet:
                 pygame.draw.line(screen, (255,0,0), line[0], line[1], 2)
             
+            add.draw()
+
+
             pygame.display.flip()
 
 

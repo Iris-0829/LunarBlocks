@@ -1,6 +1,4 @@
 from components import operator
-import List
-import Tuple
 class Addition(operator):
     def __init__(self, side : int ,startPointx: int, startPointy: int):
         """
