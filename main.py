@@ -1,14 +1,16 @@
 import pygame
+import pygame_gui
 import math
+from enum import Enum
 from collections import defaultdict
 from components.Addition import *
 from components.Subtraction import *
-
+#from operator_select import *
 
 
 rad = math.pi/180
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+SCREEN_WIDTH = 1280
+SCREEN_HEIGHT = 800
 grid_square_size = 15  # 15x15px
 FPS = 30
 LINE_ID = 0
@@ -25,6 +27,7 @@ pygame.init()
 fps_clock = pygame.time.Clock()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 surface = pygame.Surface(screen.get_size()).convert()
+ui_man = pygame_gui.UIManager((SCREEN_WIDTH, SCREEN_HEIGHT), "theme.json")
 
 
 clock = pygame.time.Clock()
@@ -101,6 +104,40 @@ for i in range(2):
     s = sub.draw()
     add_shape(s[0], s[1], sub)
 
+game_panel_rect = pygame.Rect(
+    SCREEN_WIDTH//5, SCREEN_HEIGHT//2, (4*SCREEN_WIDTH)//5, SCREEN_HEIGHT//2)
+operands_panel_rect = pygame.Rect(
+    SCREEN_WIDTH//5, 0, (4*SCREEN_WIDTH//5), (SCREEN_HEIGHT//2))
+operators_panel_rect = pygame.Rect(0, 0, SCREEN_WIDTH//5, SCREEN_HEIGHT)
+
+
+
+def menu_click(event):
+    pass
+
+
+def draw_menu():
+    pass
+
+
+game_panel = pygame_gui.elements.UIPanel(
+    relative_rect=game_panel_rect,
+    starting_layer_height=0,
+    manager=ui_man
+)
+operands_panel = pygame_gui.elements.UIPanel(
+    relative_rect=operands_panel_rect,
+    starting_layer_height=0,
+    manager=ui_man
+)
+operators_panel = pygame_gui.elements.UIPanel(
+    relative_rect=operators_panel_rect,
+    starting_layer_height=0,
+    manager=ui_man
+)
+ui_man.set_visual_debug_mode(True)
+#========
+
 
 def game_loop():
     dragging = False
@@ -114,6 +151,7 @@ def game_loop():
     drawing = False
     running = True
     while running:
+        time_delta = clock.tick(60)/1000.0
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -176,6 +214,10 @@ def game_loop():
                         line = lines[key]
                         line[idx] = (dragged.x, dragged.y)
 
+            ui_man.process_events(event)
+
+            ui_man.update(time_delta)
+
             screen.fill((255, 255, 255))
 
             for shape_id in shapes:
@@ -183,9 +225,9 @@ def game_loop():
 
             for line in lines:  
                 arrow(screen, (0,0,0), (0,0,0), lines[line][0], lines[line][1], 10, 5)
-
+            
+            ui_man.draw_ui(screen)
             pygame.display.flip()
-
 
 game_loop()
 pygame.quit()
