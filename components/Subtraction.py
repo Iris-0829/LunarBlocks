@@ -14,6 +14,8 @@ class Subtraction(Operator):
         Returns:
             sum of num1 and num2.
         """
+        self.x = x
+        self.y = y
         super().__init__(side, x, y)
 
     def do_operation(self, num_1: int, num_2: int) -> int:
@@ -36,9 +38,10 @@ class Subtraction(Operator):
         ------------------------------------------------------------------
         """
         sub_img = pygame.image.load("assets/rectangle.png")
-        return (sub_img.get_rect(), sub_img)
+        sub_img_rect = sub_img.get_rect().move(self.x, self.y)
+        return (sub_img_rect, sub_img)
 
     def selected(self):
-        #Return selected version of draw.
         sub_select_img = pygame.image.load("assets/rectangle_select.png")
-        return (sub_select_img.get_rect(), sub_select_img)
+        sub_select_rect = sub_select_img.get_rect().move(self.x, self.y)
+        return (sub_select_rect, sub_select_img)

@@ -15,6 +15,8 @@ class Addition(Operator):
         Returns:
             sum of num1 and num2.
         """
+        self.x = x
+        self.y = y
         super().__init__(side, x, y)
 
     def do_operation(self, shape_1: Shape, shape_2: Shape) -> Shape:
@@ -44,8 +46,10 @@ class Addition(Operator):
         ------------------------------------------------------------------
         """
         add_img = pygame.image.load("assets/square.png")
-        return (add_img.get_rect(), add_img)
+        add_img_rect = add_img.get_rect().move(self.x, self.y)
+        return (add_img_rect, add_img)
     
     def selected(self):
         add_select_img = pygame.image.load("assets/square_select.png")
-        return (add_select_img.get_rect(), add_select_img)
+        add_select_rect = add_select_img.get_rect().move(self.x, self.y)
+        return (add_select_rect, add_select_img)

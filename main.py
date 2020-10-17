@@ -1,4 +1,5 @@
 import pygame
+from pygame import gfxdraw
 import pygame_gui
 import math
 from enum import Enum
@@ -12,6 +13,12 @@ from components.Subtraction import *
 
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 800
+
+GAME_FIELD_POS_X = SCREEN_WIDTH//5
+GAME_FIELD_POS_Y = SCREEN_HEIGHT//3
+GAME_FIELD_WIDTH = 4*SCREEN_WIDTH//5
+GAME_FIELD_HEIGHT =  2*SCREEN_HEIGHT//3
+
 grid_square_size = 10  # 10x10px
 LINE_ID = 0
 SHAPE_ID = 0
@@ -83,61 +90,32 @@ def get_connected_lines(shape_id, shape_pos):
     return d
 
 
-# From https://stackoverflow.com/questions/56295712/how-to-draw-a-dynamic-arrow-in-pygame
+# Modified from https://stackoverflow.com/questions/56295712/how-to-draw-a-dynamic-arrow-in-pygame
 def arrow(screen, lcolor, tricolor, start, end, trirad, thickness=2):
     pygame.draw.line(screen, lcolor, start, end, thickness)
     rotation = (math.atan2(start[1] - end[1], end[0] - start[0])) + math.pi/2
-    pygame.draw.polygon(screen, tricolor, ((end[0] + trirad * math.sin(rotation),
+    pts = ((end[0] + trirad * math.sin(rotation),
                                         end[1] + trirad * math.cos(rotation)),
                                        (end[0] + trirad * math.sin(rotation - 120*rad),
                                         end[1] + trirad * math.cos(rotation - 120*rad)),
                                        (end[0] + trirad * math.sin(rotation + 120*rad),
-                                        end[1] + trirad * math.cos(rotation + 120*rad))))
+                                        end[1] + trirad * math.cos(rotation + 120*rad)))
+    pygame.gfxdraw.aapolygon(screen, pts, tricolor)
+    pygame.gfxdraw.filled_polygon(screen, pts, tricolor)
 
 
 # ==============================================================
 # For Testing Purposes
 # ================================================================
 for i in range(2):
-    add = Addition(0, i*10, i*10)
+    add = Addition(0, 600, 600)
     s = add.draw()
     add_shape(s[0], s[1], add)
 for i in range(2):
-    sub = Subtraction(0, i*10, i*10)
+    sub = Subtraction(0, 600, 600)
     s = sub.draw()
     add_shape(s[0], s[1], sub)
 
-game_panel_rect = pygame.Rect(
-    SCREEN_WIDTH//5, SCREEN_HEIGHT//2, (4*SCREEN_WIDTH)//5, SCREEN_HEIGHT//2)
-operands_panel_rect = pygame.Rect(
-    SCREEN_WIDTH//5, 0, (4*SCREEN_WIDTH//5), (SCREEN_HEIGHT//2))
-operators_panel_rect = pygame.Rect(0, 0, SCREEN_WIDTH//5, SCREEN_HEIGHT)
-
-
-
-def menu_click(event):
-    pass
-
-
-def draw_menu():
-    pass
-
-"""
-game_panel = pygame_gui.elements.UIPanel(
-    relative_rect=game_panel_rect,
-    starting_layer_height=0,
-    manager=ui_man
-)
-operands_panel = pygame_gui.elements.UIPanel(
-    relative_rect=operands_panel_rect,
-    starting_layer_height=0,
-    manager=ui_man
-)
-operators_panel = pygame_gui.elements.UIPanel(
-    relative_rect=operators_panel_rect,
-    starting_layer_height=0,
-    manager=ui_man
-) """
 draw_layout(ui_man, SCREEN_HEIGHT, SCREEN_WIDTH)
 #ui_man.set_visual_debug_mode(True)
 #============================================================================
@@ -207,11 +185,15 @@ def game_loop():
                 if dragging:
                     #move shape and snap to grid
                     m_x, m_y = event.pos
-                    dragged.x = round((m_x + offset_x) /
+                    p_x = round((m_x + offset_x) /
                                       grid_square_size)*grid_square_size
-                    dragged.y = round((m_y + offset_y) / 
+                    p_y = round((m_y + offset_y) /
                                       grid_square_size)*grid_square_size
-                    
+
+                    #Make sure shape is in bounds
+                    if (p_x < (GAME_FIELD_POS_X + GAME_FIELD_WIDTH) and p_x > (GAME_FIELD_POS_X) and p_y > GAME_FIELD_POS_Y):
+                        dragged.x = p_x
+                        dragged.y = p_y
                     #move our line properly
                     for key in connected_lines:
                         idx = connected_lines[key]
@@ -221,16 +203,16 @@ def game_loop():
             ui_man.process_events(event)
 
             ui_man.update(time_delta)
-
+            
             screen.fill((255, 255, 255))
-
+            ui_man.draw_ui(screen)
             for shape_id in shapes:
                 screen.blit(shapes[shape_id][1], shapes[shape_id][0])
 
             for line in lines:  
-                arrow(screen, (0,0,0), (0,0,0), lines[line][0], lines[line][1], 10, 5)
+                arrow(screen, (255,255,255), (255,255,255), lines[line][0], lines[line][1], 10, 5)
             
-            ui_man.draw_ui(screen)
+            
             pygame.display.flip()
 
 game_loop()
