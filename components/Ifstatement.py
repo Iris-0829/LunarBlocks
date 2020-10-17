@@ -13,7 +13,7 @@ class Ifstatement(Operator):
         self.startPointx = startPointx
         self.startPointy = startPointy
     
-    def doOperation(shape1 : Shape, shape2: Shape) -> shape:
+    def doOperation(self, shape1 : Shape, shape2: Shape) -> Shape:
         """
         ------------------------------------------------------------------
         doOperation: Compares
@@ -26,14 +26,14 @@ class Ifstatement(Operator):
             else on the bottom right cornoer
         """  
         if(shape1.equals(shape2)):
-            retTuple = (startPointx + width, startPointy) 
-            retShape = Shape(screen, shape1.filename, Shape1.dim,
+            retTuple = (self.startPointx + self.width, self.startPointy)
+            retShape = Shape(self.screen, shape1.filename, self.Shape1.dim,
                                 retTuple, shape1.color)
             retShape.update()
             return retShape          
         else:
-            retTuple = (startPointx + width, startPointy + height) 
-            retShape = Shape(screen, shape1.filename, Shape1.dim,
+            retTuple = (self.startPointx + self.width, self.startPointy + self.height)
+            retShape = Shape(self.screen, shape1.filename, self.Shape1.dim,
                                 retTuple, shape1.color)
             retShape.update()
             return retShape              
@@ -44,8 +44,8 @@ class Ifstatement(Operator):
         draw: Draws the IfStatement Operator
         ------------------------------------------------------------------
         """  
-        display = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-        ifstatementImg = pygame.image.load("assests/rectnagle.svg")   
-        display.blit(ifstatementImg, (startPointx, startPointy))        
+        display = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
+        ifstatementImg = pygame.image.load("assests/rectangle.svg")
+        display.blit(ifstatementImg, (self.startPointx, self.startPointy))
         
     
