@@ -8,7 +8,7 @@ from operator_select import draw_layout
 from components.Addition import *
 from components.Subtraction import *
 #from operator_select import *
-
+from components.CreateOperator import CreateOperator
 
 
 SCREEN_WIDTH = 1280
@@ -38,6 +38,21 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 surface = pygame.Surface(screen.get_size()).convert()
 ui_man = pygame_gui.UIManager((SCREEN_WIDTH, SCREEN_HEIGHT), "theme.json")
 
+
+# ==========operator_select_field===========================
+
+up_button = pygame_gui.elements.UIButton(
+    relative_rect=pygame.Rect(SCREEN_WIDTH * 0.07, SCREEN_HEIGHT // 20, SCREEN_WIDTH * 0.05, SCREEN_HEIGHT * 0.05),
+    text='UP',
+    manager=ui_man)
+down_button = pygame_gui.elements.UIButton(
+    relative_rect=pygame.Rect(SCREEN_WIDTH * 0.07, SCREEN_HEIGHT * 0.8, SCREEN_WIDTH * 0.05, SCREEN_HEIGHT * 0.05),
+    text='Down',
+    manager=ui_man)
+
+square_operator = CreateOperator(screen, "assets/square.png", (SCREEN_WIDTH // 15, SCREEN_HEIGHT // 5))
+
+# ========================================
 
 clock = pygame.time.Clock()
 
@@ -139,6 +154,9 @@ def game_loop():
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
+                    square_operator.isOn(event.pos)
+                    for new_operator in square_operator.draggable_operator:
+                        new_operator.is_holding(event.pos)
                     # This is how we would create an "add/delete" button:
                     # if(button.collidepoint(event.pos)):
                     #    operatorSet.append(pygame.Rect(200, 200, 30, 30))
@@ -171,6 +189,8 @@ def game_loop():
 
             if event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
+                    for new_operator in square_operator.draggable_operator:
+                        new_operator.release()
                     if(dragged is not None and dragged_init_pos is not None):
                         if(dragged.x == dragged_init_pos[0] and dragged.y == dragged_init_pos[1]):
                             selected = dragged
@@ -182,6 +202,8 @@ def game_loop():
                     dragged_init_pos = None 
 
             if event.type == pygame.MOUSEMOTION:
+                for new_operator in square_operator.draggable_operator:
+                    new_operator.update_loc(event.pos)
                 if dragging:
                     #move shape and snap to grid
                     m_x, m_y = event.pos
@@ -206,6 +228,12 @@ def game_loop():
             
             screen.fill((255, 255, 255))
             ui_man.draw_ui(screen)
+
+            square_operator.display()
+
+            for new_operator in square_operator.draggable_operator:
+                new_operator.display()
+
             for shape_id in shapes:
                 screen.blit(shapes[shape_id][1], shapes[shape_id][0])
 
