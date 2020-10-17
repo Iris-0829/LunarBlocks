@@ -8,26 +8,12 @@ class Memory:
     def __init__(self):
         """
         ------------------------------------------------------------------
-        __init__: Initializes Memory with a dictionary in the form {id: variable}
+        __init__: Initializes Memory with a dictionary in {id: [shape,img,operator]}
         ------------------------------------------------------------------
         """
         self.var_dict = {}
 
-    def addObject(self, id: str, obj: object):
-        """
-        ------------------------------------------------------------------
-        addObject: Adds the variable with id into var_dict.
-        ------------------------------------------------------------------
-        Parameters:
-            id: Unique string of variable
-            obj: variable to be stored in var_dict
-        Returns:
-            None
-        ------------------------------------------------------------------
-        """
-        self.var_dict[str] = object
-
-    def removeObject(self, id: str):
+    def removeObject(self, id: int):
         """
         ------------------------------------------------------------------
         removeObject: remove the variable with id if it exists in var_dict
@@ -41,7 +27,7 @@ class Memory:
         if id in self.var_dict:
             del self.var_dict[id]
 
-    def assign(self, id1: str, id2: str):
+    def assign(self, id1: int, id2: int):
         """
         ------------------------------------------------------------------
         assign: Assigns contents of variable at id1 to the variable at id2
