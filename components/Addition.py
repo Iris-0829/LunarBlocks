@@ -4,7 +4,7 @@ from components.Shape import Shape
 
 
 class Addition(Operator):
-    def __init__(self, side: int, x: int, y: int):
+    def __init__(self, side: int, x: int, y: int, draggable = True):
         """
         ------------------------------------------------------------------
         __init__: Constructs the Addition object
@@ -18,7 +18,7 @@ class Addition(Operator):
         self.x = x
         self.y = y
         self.draggable = True
-        super().__init__(side, x, y)
+        super().__init__(side, x, y, draggable)
 
     def do_operation(self, shape_1: Shape, shape_2: Shape) -> Shape:
         """
