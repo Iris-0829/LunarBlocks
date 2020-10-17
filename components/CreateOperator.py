@@ -4,9 +4,10 @@ from components.Draggable import Draggable
 
 
 class CreateOperator:
-    def __init__(self, screen, filename: str, loc: Tuple[float, float]):
+    def __init__(self, screen, filename: str, loc: Tuple[float, float], spawn_loc: Tuple[float, float]):
         self.img = pygame.image.load(filename)
         self.loc = loc
+        self.spawn_loc = spawn_loc
         self.screen = screen
         self.dim = self.img.get_size()
 
@@ -23,6 +24,6 @@ class CreateOperator:
                 self.dim[1]
         if self.is_on:
             # create a new draggable operator
-            newOperator = Draggable(self.screen, self.filename, self.loc)
+            newOperator = Draggable(self.screen, self.filename, self.spawn_loc)
             self.draggable_operator.append(newOperator)
 

@@ -50,7 +50,9 @@ down_button = pygame_gui.elements.UIButton(
     text='Down',
     manager=ui_man)
 
-square_operator = CreateOperator(screen, "assets/square.png", (SCREEN_WIDTH // 15, SCREEN_HEIGHT // 5))
+#Spawn in middle of game field: 
+square_operator = CreateOperator(screen, "assets/square.png", (SCREEN_WIDTH // 15, SCREEN_HEIGHT // 5), 
+                                    ((GAME_FIELD_WIDTH + GAME_FIELD_POS_X)//2, (GAME_FIELD_HEIGHT + GAME_FIELD_POS_Y)//2))
 
 # ========================================
 
@@ -172,20 +174,20 @@ def game_loop():
                                     shapes[dragged_id][1] = shapes[dragged_id][2].draw()[1]
                                     break
                                 else:
-                                    # Begins the dragging sequence.
-                                    dragging = True
-                                    dragged = shape
-                                    dragged_id = get_shape_id(dragged)
-                                    dragged_init_pos = (shape.x, shape.y)
-                                    
-                                    # Gets all lines connected to shape, along with which end is connected to our shape.
-                                    connected_lines = get_connected_lines(
-                                        dragged_id, dragged_init_pos)
+                                    dragged_id = get_shape_id(shape)
+                                    if(shapes[dragged_id][2].draggable == True):
+                                        dragging = True
+                                        dragged = shape
+                                        dragged_init_pos = (shape.x, shape.y)
 
-                                    m_x, m_y = event.pos
-                                    offset_x = shape.x - m_x
-                                    offset_y = shape.y - m_y
-                                    break
+                                        # Gets all lines connected to shape, along with which end is connected to our shape.
+                                        connected_lines = get_connected_lines(
+                                            dragged_id, dragged_init_pos)
+
+                                        m_x, m_y = event.pos
+                                        offset_x = shape.x - m_x
+                                        offset_y = shape.y - m_y
+                                        break
 
             if event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
