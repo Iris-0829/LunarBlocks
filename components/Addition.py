@@ -18,7 +18,7 @@ screen as such screen.blit(Adder.draw(), Adder.startPointx, Adder.startPointy
 
 '''
 class Addition(Operator):
-    def __init__(self, side: int, x: int, y: int, draggable = True):
+    def __init__(self, side: int, x: int, y: int):
         """
         ------------------------------------------------------------------
         __init__: Constructs the Addition object
@@ -30,10 +30,7 @@ class Addition(Operator):
         Returns:
             nothing
         """
-        self.x = x
-        self.y = y
-        self.draggable = True
-        super().__init__(side, x, y, draggable)
+        super().__init__(side, x, y)
 
     def doOperation(self, shape1: Shape, shape2: Shape) -> Shape:
         """
@@ -48,7 +45,6 @@ class Addition(Operator):
         """
 
         retTuple = (self.startPointx + self.side, self.startPointy)
-        print(shape1.scale, shape2.scale, (shape1.add(shape2)).scale)
         retShape = Shape(shape1.screen, shape1.filename, (shape1.add(shape2)).scale,
                            retTuple, shape1.color)
         retShape.update()
