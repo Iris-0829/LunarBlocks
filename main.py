@@ -9,28 +9,11 @@ from components.Addition import *
 from components.Subtraction import *
 #from operator_select import *
 from components.CreateOperator import CreateOperator
+from data_manager import *
+from graph import *
 
 
-SCREEN_WIDTH = 1280
-SCREEN_HEIGHT = 800
 
-GAME_FIELD_POS_X = SCREEN_WIDTH//5
-GAME_FIELD_POS_Y = SCREEN_HEIGHT//3
-GAME_FIELD_WIDTH = 4*SCREEN_WIDTH//5
-GAME_FIELD_HEIGHT =  2*SCREEN_HEIGHT//3
-
-grid_square_size = 10  # 10x10px
-LINE_ID = 0
-SHAPE_ID = 0
-FPS = 30
-rad = math.pi/180
-
-operator_set = []
-operand_set = []
-shapes = defaultdict(list)
-lines = {}
-edges = defaultdict(list)
-directed_graph = defaultdict(list)
 
 pygame.init()
 fps_clock = pygame.time.Clock()
@@ -61,50 +44,6 @@ clock = pygame.time.Clock()
 # TODO: clean this up
 # It doesn't really need to be in this file.
 # I'll keep it around for now though. 
-
-
-def add_line(shape1, shape2):
-    # create line between shapes.
-    global SHAPE_ID
-    global LINE_ID
-    try:
-        shapeId_1 = get_shape_id(shape1)
-        shapeId_2 = get_shape_id(shape2)
-        edges[shapeId_1].append(LINE_ID) 
-        edges[shapeId_2].append(LINE_ID)
-        directed_graph[shapeId_1].append(shapeId_2) 
-        lines[LINE_ID] = [(shape1.x, shape1.y), (shape2.x, shape2.y)]
-        LINE_ID += 1
-    except:
-        print("addLine(), problem!")
-    return
-
-
-def add_shape(shape, shape_img, operator):
-    global SHAPE_ID
-    shapes[SHAPE_ID] = [shape, shape_img, operator]
-    SHAPE_ID += 1
-
-
-def get_shape_id(shape):
-    global SHAPE_ID
-    for id in shapes:
-        if(shapes[id][0] == shape):
-            return id
-    shapes[SHAPE_ID] = shape[0]
-    SHAPE_ID += 1
-    return SHAPE_ID - 1
-
-
-def get_connected_lines(shape_id, shape_pos):
-    d = {}
-    for line_id in edges[shape_id]:
-        line = lines[line_id]
-        if line[0] == shape_pos:
-            d[line_id] = 0
-        else:
-            d[line_id] = 1
-    return d
 
 
 # Modified from https://stackoverflow.com/questions/56295712/how-to-draw-a-dynamic-arrow-in-pygame
@@ -139,15 +78,6 @@ draw_layout(ui_man, SCREEN_HEIGHT, SCREEN_WIDTH)
 
 
 def game_loop():
-    dragging = False
-    dragged = None
-    dragged_init_pos = None
-    dragged_id = -1
-
-    line_num = -1
-
-    selected = None
-    drawing = False
     running = True
     while running:
         time_delta = clock.tick(60)/1000.0
@@ -159,70 +89,18 @@ def game_loop():
                     square_operator.isOn(event.pos)
                     for new_operator in square_operator.draggable_operator:
                         new_operator.is_holding(event.pos)
-                    # This is how we would create an "add/delete" button:
-                    # if(button.collidepoint(event.pos)):
-                    #    operatorSet.append(pygame.Rect(200, 200, 30, 30))
-                    # else:
-                    if not dragging:
-                        for shape_id in shapes:
-                            shape = shapes[shape_id][0]
-                            if(shape.collidepoint(event.pos)):
-                                if(selected != shape) and (selected is not None):
-                                    # draws the line and deselect shape
-                                    add_line(selected, shape)
-                                    selected = None
-                                    shapes[dragged_id][1] = shapes[dragged_id][2].draw()[1]
-                                    break
-                                else:
-                                    dragged_id = get_shape_id(shape)
-                                    if(shapes[dragged_id][2].draggable == True):
-                                        dragging = True
-                                        dragged = shape
-                                        dragged_init_pos = (shape.x, shape.y)
-
-                                        # Gets all lines connected to shape, along with which end is connected to our shape.
-                                        connected_lines = get_connected_lines(
-                                            dragged_id, dragged_init_pos)
-
-                                        m_x, m_y = event.pos
-                                        offset_x = shape.x - m_x
-                                        offset_y = shape.y - m_y
-                                        break
 
             if event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
                     for new_operator in square_operator.draggable_operator:
                         new_operator.release()
-                    if(dragged is not None and dragged_init_pos is not None):
-                        if(dragged.x == dragged_init_pos[0] and dragged.y == dragged_init_pos[1]):
-                            selected = dragged
-                            s = shapes[dragged_id]
-                            s[1] = s[2].selected()[1]
-
-                    dragging = False
-                    dragged = None
-                    dragged_init_pos = None 
-
+            
             if event.type == pygame.MOUSEMOTION:
                 for new_operator in square_operator.draggable_operator:
                     new_operator.update_loc(event.pos)
-                if dragging:
-                    #move shape and snap to grid
-                    m_x, m_y = event.pos
-                    p_x = round((m_x + offset_x) /
-                                      grid_square_size)*grid_square_size
-                    p_y = round((m_y + offset_y) /
-                                      grid_square_size)*grid_square_size
 
-                    #Make sure shape is in bounds
-                    if (p_x < (GAME_FIELD_POS_X + GAME_FIELD_WIDTH) and p_x > (GAME_FIELD_POS_X) and p_y > GAME_FIELD_POS_Y):
-                        dragged.x = p_x
-                        dragged.y = p_y
-                    #move our line properly
-                    for key in connected_lines:
-                        idx = connected_lines[key]
-                        line = lines[key]
-                        line[idx] = (dragged.x, dragged.y)
+
+            graph_draw(event)
 
             ui_man.process_events(event)
 
