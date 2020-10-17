@@ -9,12 +9,12 @@ class Operator(pygame.sprite.Sprite):
         self.startPointx = startPointx
         self.startPointy = startPointy
     @abc.abstractmethod
-    def doOperation():
+    def doOperation(self):
         """Does the operation for the given operator 
            and returns the object"""
         return    
     _metaclass__ = abc.ABCMeta
     @abc.abstractmethod
-    def draw():
+    def draw(self):
         """Draws the Operator""" 
         return        
