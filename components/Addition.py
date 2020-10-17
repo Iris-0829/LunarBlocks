@@ -17,6 +17,7 @@ class Addition(Operator):
         """
         self.x = x
         self.y = y
+        self.draggable = True
         super().__init__(side, x, y)
 
     def do_operation(self, shape_1: Shape, shape_2: Shape) -> Shape:
