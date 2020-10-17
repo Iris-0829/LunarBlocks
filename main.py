@@ -3,25 +3,27 @@ import pygame_gui
 import math
 from enum import Enum
 from collections import defaultdict
+from operator_select import draw_layout
 from components.Addition import *
 from components.Subtraction import *
 #from operator_select import *
 
 
-rad = math.pi/180
+
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 800
-grid_square_size = 15  # 15x15px
-FPS = 30
+grid_square_size = 10  # 10x10px
 LINE_ID = 0
 SHAPE_ID = 0
+FPS = 30
+rad = math.pi/180
 
 operator_set = []
 operand_set = []
 shapes = defaultdict(list)
 lines = {}
 edges = defaultdict(list)
-
+directed_graph = defaultdict(list)
 
 pygame.init()
 fps_clock = pygame.time.Clock()
@@ -44,8 +46,9 @@ def add_line(shape1, shape2):
     try:
         shapeId_1 = get_shape_id(shape1)
         shapeId_2 = get_shape_id(shape2)
-        edges[shapeId_1].append(LINE_ID)
+        edges[shapeId_1].append(LINE_ID) 
         edges[shapeId_2].append(LINE_ID)
+        directed_graph[shapeId_1].append(shapeId_2) 
         lines[LINE_ID] = [(shape1.x, shape1.y), (shape2.x, shape2.y)]
         LINE_ID += 1
     except:
@@ -92,9 +95,9 @@ def arrow(screen, lcolor, tricolor, start, end, trirad, thickness=2):
                                         end[1] + trirad * math.cos(rotation + 120*rad))))
 
 
-# =======
+# ==============================================================
 # For Testing Purposes
-# ======
+# ================================================================
 for i in range(2):
     add = Addition(0, i*10, i*10)
     s = add.draw()
@@ -119,7 +122,7 @@ def menu_click(event):
 def draw_menu():
     pass
 
-
+"""
 game_panel = pygame_gui.elements.UIPanel(
     relative_rect=game_panel_rect,
     starting_layer_height=0,
@@ -134,9 +137,10 @@ operators_panel = pygame_gui.elements.UIPanel(
     relative_rect=operators_panel_rect,
     starting_layer_height=0,
     manager=ui_man
-)
-ui_man.set_visual_debug_mode(True)
-#========
+) """
+draw_layout(ui_man, SCREEN_HEIGHT, SCREEN_WIDTH)
+#ui_man.set_visual_debug_mode(True)
+#============================================================================
 
 
 def game_loop():
@@ -177,6 +181,7 @@ def game_loop():
                                     dragged = shape
                                     dragged_id = get_shape_id(dragged)
                                     dragged_init_pos = (shape.x, shape.y)
+                                    
                                     # Gets all lines connected to shape, along with which end is connected to our shape.
                                     connected_lines = get_connected_lines(
                                         dragged_id, dragged_init_pos)
@@ -191,13 +196,12 @@ def game_loop():
                     if(dragged is not None and dragged_init_pos is not None):
                         if(dragged.x == dragged_init_pos[0] and dragged.y == dragged_init_pos[1]):
                             selected = dragged
-                            # This is a convoluted way of making the shape into the "selected" version.
                             s = shapes[dragged_id]
                             s[1] = s[2].selected()[1]
 
                     dragging = False
                     dragged = None
-                    dragged_init_pos = None
+                    dragged_init_pos = None 
 
             if event.type == pygame.MOUSEMOTION:
                 if dragging:

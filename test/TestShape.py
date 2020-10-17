@@ -18,7 +18,6 @@ class TestShape(unittest.TestCase):
         s4 = self.s1
         self.assertTrue(self.s1 == s4)
         self.assertFalse(self.s1 == s3)
-
     def test_equals(self):
         s3 = Shape(None, '', 1, (5, 5), (0, 0, 0))
         self.assertTrue(self.s1.equals(s3))
