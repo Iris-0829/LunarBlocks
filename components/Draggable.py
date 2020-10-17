@@ -39,14 +39,14 @@ class Draggable:
         """
         Displays image with its current coordinates.
         """
-        self.stage.blit(self.img, self.loc)
+        self.screen.blit(self.img, self.loc)
 
-    def __init__(self, stage, filename: str, loc: Tuple[float, float]):
+    def __init__(self, screen, filename: str, loc: Tuple[float, float]):
         # image reference is by its topleft vertex
         self.img = pygame.image.load(filename)
         self.dim = self.img.get_size()
         self.loc = loc
         self.offset = (0, 0)
 
-        self.stage = stage
+        self.screen = screen
         self.held = False
