@@ -30,5 +30,5 @@ class Shape(Operand, Generic[shape]):
         return res
 
     def __init__(self, screen, filename: str, scale: float, loc: Tuple[float, float],
-                 color: Tuple[int, int, int]):
+                 color: Tuple[int, int, int]) -> None:
         super().__init__(screen, filename, scale, loc, color)

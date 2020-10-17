@@ -1,29 +1,28 @@
-from typing import Tuple, Dict, List
-from components.Addition import Addition
-from components.Shape import Shape
-
-
-def add(s1: Shape, s2: Shape):
-    return s1.add(s2)
+from typing import List
+from components.commands.InNode import InNode
+from components.commands.OutNode import OutNode
 
 
 class CommandManager:
-    def __init__(self, adj_list: list, start: int, end: int) -> None:
-        # adj_list format for every element:
-        # (operator: Operator, params: []], next: {True: int, False: int} or int)
-        self.adj_list = adj_list
-        self.start = start
-        self.end = end
-        self.curr = self.start
+    def __init__(self, ports: List[tuple], op_nodes: list, out_node: OutNode) -> None:
+        """
+        Initializes CommandManager.
+        :param ports: List of tuples in the form (operand, next_node).
+        :param op_nodes: List of all known operator nodes in the stage.
+        """
+        self.in_node = InNode(ports)
+        self.op_nodes = op_nodes
+        self.in_node.advance()
+        self.out_node = out_node
 
-    def advance(self, out: List):
+    def execute(self):
+        for op in self.op_nodes:
+            # op.execute()
+            res = op.execute()
+            if res == 0:
+                # draw op.output
+                op.advance()
+                break  # prevents displaying more than one I/O at a time.
 
-
-    def execute(self, operator_name: str, params: List):
-        try:
-            if operator_name == 'add':
-                return add(*tuple(params))
-
-        # lacks parameters, needs to wait for others
-        except TypeError:
-            return None
+    def get_output(self):
+        self.out_node.execute()
