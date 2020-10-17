@@ -7,8 +7,8 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 grid_square_size = 15 #15x15px  
 FPS = 30
-lineId = 0
-shapeId = 0
+LINE_ID = 0
+SHAPE_ID = 0
 pygame.init()
 fps_clock = pygame.time.Clock()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -20,42 +20,52 @@ clock = pygame.time.Clock()
 operatorSet = []
 operandSet = []
 shapes = {}
-edges = {}
-edgeSet = defaultdict(list)
+lines = {}
+edges = defaultdict(list)
 sites = pygame.sprite.Group()
 
 
 def addLine(shape1, shape2):
     #create line between shapes.
-    global shapeId
-    global lineId
+    global SHAPE_ID
+    global LINE_ID
     try:
         shapeId_1 = getShapeId(shape1)
         shapeId_2 = getShapeId(shape2)
-        edgeSet[shapeId_1].append(lineId)
-        edgeSet[shapeId_2].append(lineId)
-        edges[lineId] = [(shape1.x, shape1.y), (shape2.x, shape2.y)]
-        lineId += 1
+        edges[shapeId_1].append(LINE_ID)
+        edges[shapeId_2].append(LINE_ID)
+        lines[LINE_ID] = [(shape1.x, shape1.y), (shape2.x, shape2.y)]
+        LINE_ID += 1
     except:
         print("addLine(), problem!")   
     return
 
 def addShape(shape):
-    global shapeId
-    shapes[shapeId] = shape
-    shapeId += 1
+    global SHAPE_ID
+    shapes[SHAPE_ID] = shape
+    SHAPE_ID += 1
 
 def getShapeId(shape):
-    global shapeId
+    global SHAPE_ID
     for id in shapes:
         if(shapes[id] == shape):
             return id
-    shapes[shapeId] = shape
-    shapeId += 1
-    return shapeId - 1
+    shapes[SHAPE_ID] = shape
+    SHAPE_ID += 1
+    return SHAPE_ID - 1
 
 for i in range(10):
     addShape(pygame.Rect(10*i, 5*i, 30, 30))
+
+def get_connected_lines(shape_id, shape_pos):
+    d = {}
+    for line_id in edges[shape_id]:
+        line = lines[line_id]
+        if line[0] == shape_pos:
+            d[line_id] = 0
+        else:
+            d[line_id] = 1
+    return d
 
 
 
@@ -64,6 +74,8 @@ def game_loop():
     dragged = None
     dragged_init_pos = None
     dragged_id = -1
+
+    line_num = -1 
 
     selected = None
     drawing = False
@@ -77,8 +89,9 @@ def game_loop():
                     #if(button.collidepoint(event.pos)):
                     #    operatorSet.append(pygame.Rect(200, 200, 30, 30))
                     #else:
-                        for sId in shapes:
-                            shape = shapes[sId] 
+                    if not dragging:
+                        for shape_id in shapes:
+                            shape = shapes[shape_id]
                             if(shape.collidepoint(event.pos)):
                                 if(selected != shape) and (selected is not None):
                                     #draw line
@@ -90,6 +103,7 @@ def game_loop():
                                     dragged = shape
                                     dragged_id = getShapeId(dragged)
                                     dragged_init_pos = (shape.x, shape.y)
+                                    connected_lines = get_connected_lines(dragged_id, dragged_init_pos)
                                     m_x, m_y = event.pos
                                     offset_x = shape.x - m_x
                                     offset_y = shape.y - m_y
@@ -101,8 +115,9 @@ def game_loop():
                     if(dragged is not None and dragged_init_pos is not None):
                         if(dragged.x == dragged_init_pos[0] and dragged.y == dragged_init_pos[1]):
                             selected = dragged
-                    dragging = 0
+                    dragging = False
                     dragged = None
+                    dragged_init_pos = None
 
 
             if event.type == pygame.MOUSEMOTION:
@@ -110,14 +125,12 @@ def game_loop():
                     m_x, m_y = event.pos
                     dragged.x = round((m_x + offset_x) / grid_square_size)*grid_square_size
                     dragged.y = round((m_y + offset_y) / grid_square_size)*grid_square_size
-                    if dragged_id in edgeSet.keys():
-                        for id in edgeSet[dragged_id]:
-                            line = edges[id]
-                            if line[0] == dragged_init_pos:
-                                line[0] = (dragged.x, dragged.y)
-                            else:
-                                line[1] = (dragged.x, dragged.y)
-                            edges[id] = line
+
+                    for key in connected_lines:
+                        idx = connected_lines[key]
+                        line = lines[key]
+                        line[idx] = (dragged.x, dragged.y)
+
 
 
             screen.fill((255,255,255))
@@ -125,9 +138,9 @@ def game_loop():
             for shape in shapes:
                 pygame.draw.rect(screen, (0, 0, 0), shapes[shape])
             
-            for line in edges:
+            for line in lines:
                 pygame.draw.line(screen, (0, 0, 255),
-                                 edges[line][0], edges[line][1], 2)
+                                 lines[line][0], lines[line][1], 2)
             
 
             pygame.display.flip()
