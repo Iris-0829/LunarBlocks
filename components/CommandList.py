@@ -9,13 +9,12 @@ class Commands:
     ------------------------------------------------------------------
     """
 
-    def __init__(self, ope: operator):
+    def __init__(self):
         """
         ------------------------------------------------------------------
         __init__: Initializes Commands with a list of commands and a test set
         ------------------------------------------------------------------
         """
-        self.command = ope
         self.testSet = []
 
     def addTestCase(self, testInput: Tuple[int, int], testOutput: int):
@@ -35,7 +34,7 @@ class Commands:
         testCase = [testInput, testOutput]
         self.testSet.append(testCase)
 
-    def runTest(self):
+    def runTest(self, shape):
         """
         ------------------------------------------------------------------
         runTest: run the test cases in testSet
@@ -48,7 +47,12 @@ class Commands:
         for test in self.testSet:
             # test: [(0,1), 1]
             # exp = 1
-            act = self.command.doOperation(test[0][0], test[0][1])
+            # act = self.command.doOperation(test[0][0], test[0][1])
+
+            # TODO: get the final value of shape
+
+
+
             exp = test[1]
             if act != exp:
                 return False
