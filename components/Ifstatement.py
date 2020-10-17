@@ -60,7 +60,7 @@ class Ifstatement(Operator):
         draw: Draws the IfStatement Operator
         ------------------------------------------------------------------
         """  
-        ifstatementImg = pygame.image.load("rectangle.png")
+        ifstatementImg = pygame.image.load("./assets/rectangle.png")
         return ifstatementImg
     
     def selected(self):
@@ -69,7 +69,7 @@ class Ifstatement(Operator):
         draw: Draws the IfStatement Operator
         ------------------------------------------------------------------
         """  
-        ifstatementImg = pygame.image.load("rectangle_select.png")
+        ifstatementImg = pygame.image.load("./assets/rectangle_select.png")
         return ifstatementImg        
     
         

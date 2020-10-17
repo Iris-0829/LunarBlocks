@@ -56,9 +56,9 @@ class Addition(Operator):
         draw: Draws the Addition Operator
         ------------------------------------------------------------------
         """
-        add_img = pygame.image.load("triangle.png")
+        add_img = pygame.image.load("./assets/triangle.png")
         return add_img
     
     def selected(self):
-        add_select_img = pygame.image.load("triangle_select.png")
+        add_select_img = pygame.image.load("./assets/triangle_select.png")
         return add_select_img
