@@ -1,6 +1,6 @@
 import pygame
 from typing import Tuple
-
+import math
 
 class Operand(pygame.sprite.Sprite):
 
@@ -10,9 +10,10 @@ class Operand(pygame.sprite.Sprite):
         """
         # draw image if applicable
         if self.screen is not None:
+            scalesqrt = math.sqrt(self.scale)
             self.img = pygame.transform.scale(self.img,
-                                              (self.img.get_size()[0] * self.scale,
-                                               self.img.get_size()[1] * self.scale))
+                                              (int((self.img.get_size()[0] * scalesqrt)),
+                                               int(self.img.get_size()[1] * scalesqrt)))
             self.screen.blit(self.img, self.loc)
 
     def __init__(self, screen, filename: str, scale: float, loc: Tuple[float, float],

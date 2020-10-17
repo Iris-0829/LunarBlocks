@@ -1,8 +1,22 @@
 import pygame
 from components.operator import Operator
 from components.Shape import Shape
+from components.Operand import Operand
+from typing import TypeVar, Generic, Tuple
+'''
+How to use, 
+Make operator Addition by using constructor as such Addition(100,500,500)
+here 100 would be trianlge side length, 500 will be starting x position
+and 500 will be starting y position
+
+The doOperation Method will draw the shape at the tip of the triangle of the
+operator, use it as such Ifstatement.doOperator(shape1, shape2)
 
 
+The draw method will return loaded img for the operator, The user can blit it onto
+screen as such screen.blit(Adder.draw(), Adder.startPointx, Adder.startPointy
+
+'''
 class Addition(Operator):
     def __init__(self, side: int, x: int, y: int, draggable = True):
         """
@@ -10,35 +24,35 @@ class Addition(Operator):
         __init__: Constructs the Addition object
         ------------------------------------------------------------------
          Parameters:
-            num1: first number to be added
-            num2: second number to be added
+            side: side of triangle
+            x: locations for x
+            y: location for y
         Returns:
-            sum of num1 and num2.
+            nothing
         """
         self.x = x
         self.y = y
         self.draggable = True
         super().__init__(side, x, y, draggable)
 
-    def do_operation(self, shape_1: Shape, shape_2: Shape) -> Shape:
+    def doOperation(self, shape1: Shape, shape2: Shape) -> Shape:
         """
         ------------------------------------------------------------------
-        doOperation: Add given numbers
+        doOperation: Add given Shapes
         ------------------------------------------------------------------
          Parameters:
             Shape1: first number to be added
             Shape2: second number to be added
         Returns:
-            sum of num1 and num2.
+            sum of Shape1 and Shape2.
         """
-        pass
-        # TODO: this is giving me lots of errors!
 
-        #retTuple = (startPointx + side, startPointy + (side / 2))
-        # retShape = Shape(screen, shape1.filename, (shape1.add(shape2).dim,
-        #                    retTuple, shape1.color)
-        # retShape.update()
-        # return retShape
+        retTuple = (self.startPointx + self.side, self.startPointy)
+        print(shape1.scale, shape2.scale, (shape1.add(shape2)).scale)
+        retShape = Shape(shape1.screen, shape1.filename, (shape1.add(shape2)).scale,
+                           retTuple, shape1.color)
+        retShape.update()
+        return retShape
 
     def draw(self):
         """
@@ -46,11 +60,9 @@ class Addition(Operator):
         draw: Draws the Addition Operator
         ------------------------------------------------------------------
         """
-        add_img = pygame.image.load("assets/square.png")
-        add_img_rect = add_img.get_rect().move(self.x, self.y)
-        return (add_img_rect, add_img)
+        add_img = pygame.image.load("triangle.png")
+        return add_img
     
     def selected(self):
-        add_select_img = pygame.image.load("assets/square_select.png")
-        add_select_rect = add_select_img.get_rect().move(self.x, self.y)
-        return (add_select_rect, add_select_img)
+        add_select_img = pygame.image.load("triangle_select.png")
+        return add_select_img

@@ -1,8 +1,8 @@
 import pygame
-from components.Addition import Addition
-from components.Operand import Operand
-from components.operator import operator
-from components.Shape import Shape
+from components import Addition
+from components import Operand
+from components import operator
+from components import Shape
 
 pygame.init()
 gameDisplay = pygame.display.set_mode((800,600))
