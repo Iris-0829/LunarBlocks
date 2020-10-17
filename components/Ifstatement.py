@@ -16,13 +16,14 @@ class Ifstatement(Operator):
     def doOperation(shape1 : Shape, shape2: Shape) -> shape:
         """
         ------------------------------------------------------------------
-        doOperation: Add given numbers
+        doOperation: Compares
         ------------------------------------------------------------------
          Parameters:
             shape1: first Shape to be compared
             shape2: Second Shape to be compared
         Returns:
-            return newShape 
+            return newshape on top right corner of square if True
+            else on the bottom right cornoer
         """  
         if(shape1.equals(shape2)):
             retTuple = (startPointx + width, startPointy) 
@@ -40,7 +41,7 @@ class Ifstatement(Operator):
     def draw(self, screen, filename: str):
         """
         ------------------------------------------------------------------
-        draw: Draws the Addition Operator
+        draw: Draws the IfStatement Operator
         ------------------------------------------------------------------
         """  
         display = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
