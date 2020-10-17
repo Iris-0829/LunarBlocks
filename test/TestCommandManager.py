@@ -15,5 +15,4 @@ ports = [(s1, a2), (s2, a2), (s3, a1)]
 cm = CommandManager(ports=ports, op_nodes=a, out_node=out)
 cm.execute()
 cm.execute()
-cm.execute()
 print(out.execute()[0].scale)
