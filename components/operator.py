@@ -13,7 +13,7 @@ class Operator(pygame.sprite.Sprite):
         """Does the operation for the given operator 
            and returns the object"""
         return    
-    _metaclass__ = abc.ABCMeta
+    __metaclass__ = abc.ABCMeta
     @abc.abstractmethod
     def draw(self):
         """Draws the Operator""" 
