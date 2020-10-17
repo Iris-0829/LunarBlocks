@@ -2,8 +2,9 @@ import pygame
 from components.operator import Operator
 from components.Shape import Shape
 
+
 class Addition(Operator):
-    def __init__(self, side : int, startPointx: int, startPointy: int):
+    def __init__(self, side: int, x: int, y: int):
         """
         ------------------------------------------------------------------
         __init__: Constructs the Addition object
@@ -13,11 +14,10 @@ class Addition(Operator):
             num2: second number to be added
         Returns:
             sum of num1 and num2.
-        """    
-        super().__init__(side, startPointx, startPointy)
-        
-    
-    def doOperation(shape1 : Shape, shape2: Shape) -> Shape:
+        """
+        super().__init__(side, x, y)
+
+    def do_operation(self, shape_1: Shape, shape_2: Shape) -> Shape:
         """
         ------------------------------------------------------------------
         doOperation: Add given numbers
@@ -27,21 +27,25 @@ class Addition(Operator):
             Shape2: second number to be added
         Returns:
             sum of num1 and num2.
-        """  
-        retTuple = (startPointx + side, startPointy + (side/ 2)) 
-        retShape = Shape(screen, shape1.filename, (Shape1.add(shape2).dim,
-                            retTuple, shape1.color)
-        retShape.update()
-        return returnShape
-    def draw(self, screen):
+        """
+        pass
+        # TODO: this is giving me lots of errors!
+
+        #retTuple = (startPointx + side, startPointy + (side / 2))
+        # retShape = Shape(screen, shape1.filename, (shape1.add(shape2).dim,
+        #                    retTuple, shape1.color)
+        # retShape.update()
+        # return retShape
+
+    def draw(self):
         """
         ------------------------------------------------------------------
         draw: Draws the Addition Operator
         ------------------------------------------------------------------
-        """  
-        display = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-        additionImg = pygame.image.load("assests/triangle.svg")   
-        display.blit(additionImg, (startPointx, startPointy))
-        
-        
+        """
+        add_img = pygame.image.load("assets/square.png")
+        return (add_img.get_rect(), add_img)
     
+    def selected(self):
+        add_select_img = pygame.image.load("assets/square_select.png")
+        return (add_select_img.get_rect(), add_select_img)

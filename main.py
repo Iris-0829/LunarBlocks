@@ -1,6 +1,7 @@
 import pygame
 from collections import defaultdict
-from components.Addition import *
+from components.Addition import * 
+from components.Subtraction import * 
 
 
 SCREEN_WIDTH = 800
@@ -9,6 +10,15 @@ grid_square_size = 15 #15x15px
 FPS = 30
 LINE_ID = 0
 SHAPE_ID = 0
+
+operator_set = []
+operand_set = []
+shapes = defaultdict(list)
+lines = {}
+edges = defaultdict(list)
+sites = pygame.sprite.Group()
+
+
 pygame.init()
 fps_clock = pygame.time.Clock()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -17,21 +27,14 @@ surface = pygame.Surface(screen.get_size()).convert()
 
 clock = pygame.time.Clock()
 
-operatorSet = []
-operandSet = []
-shapes = {}
-lines = {}
-edges = defaultdict(list)
-sites = pygame.sprite.Group()
-
-
-def addLine(shape1, shape2):
+#TODO: clean this up 
+def add_line(shape1, shape2):
     #create line between shapes.
     global SHAPE_ID
     global LINE_ID
     try:
-        shapeId_1 = getShapeId(shape1)
-        shapeId_2 = getShapeId(shape2)
+        shapeId_1 = get_shape_id(shape1)
+        shapeId_2 = get_shape_id(shape2)
         edges[shapeId_1].append(LINE_ID)
         edges[shapeId_2].append(LINE_ID)
         lines[LINE_ID] = [(shape1.x, shape1.y), (shape2.x, shape2.y)]
@@ -40,22 +43,19 @@ def addLine(shape1, shape2):
         print("addLine(), problem!")   
     return
 
-def addShape(shape):
+def add_shape(shape, shape_img, operator):
     global SHAPE_ID
-    shapes[SHAPE_ID] = shape
+    shapes[SHAPE_ID] = [shape, shape_img, operator]
     SHAPE_ID += 1
 
-def getShapeId(shape):
+def get_shape_id(shape):
     global SHAPE_ID
     for id in shapes:
-        if(shapes[id] == shape):
+        if(shapes[id][0] == shape):
             return id
-    shapes[SHAPE_ID] = shape
+    shapes[SHAPE_ID] = shape[0]
     SHAPE_ID += 1
     return SHAPE_ID - 1
-
-for i in range(10):
-    addShape(pygame.Rect(10*i, 5*i, 30, 30))
 
 def get_connected_lines(shape_id, shape_pos):
     d = {}
@@ -66,6 +66,19 @@ def get_connected_lines(shape_id, shape_pos):
         else:
             d[line_id] = 1
     return d
+
+
+#=======
+# For Testing Purposes
+#======
+for i in range(2):
+    add = Addition(0, i*10, i*10)
+    s = add.draw()
+    add_shape(s[0], s[1], add)
+for i in range(2):
+    sub = Subtraction(0, i*10, i*10)
+    s = sub.draw()
+    add_shape(s[0], s[1], sub)
 
 
 
@@ -91,17 +104,18 @@ def game_loop():
                     #else:
                     if not dragging:
                         for shape_id in shapes:
-                            shape = shapes[shape_id]
+                            shape = shapes[shape_id][0]
                             if(shape.collidepoint(event.pos)):
                                 if(selected != shape) and (selected is not None):
                                     #draw line
-                                    addLine(selected, shape)
+                                    add_line(selected, shape)
                                     selected = None
+                                    shapes[dragged_id][1] = shapes[dragged_id][2].selected()[1]
                                     break
                                 else:
                                     dragging = True
                                     dragged = shape
-                                    dragged_id = getShapeId(dragged)
+                                    dragged_id = get_shape_id(dragged)
                                     dragged_init_pos = (shape.x, shape.y)
                                     connected_lines = get_connected_lines(dragged_id, dragged_init_pos)
                                     m_x, m_y = event.pos
@@ -115,6 +129,10 @@ def game_loop():
                     if(dragged is not None and dragged_init_pos is not None):
                         if(dragged.x == dragged_init_pos[0] and dragged.y == dragged_init_pos[1]):
                             selected = dragged
+                            #This is a convoluted way of making the shape into the "selected" version.
+                            shapes[dragged_id][1] = shapes[dragged_id][2].selected()[1]
+
+
                     dragging = False
                     dragged = None
                     dragged_init_pos = None
@@ -134,15 +152,15 @@ def game_loop():
 
 
             screen.fill((255,255,255))
-            #pygame.draw.rect(screen, (0, 255, 0), button)
-            for shape in shapes:
-                pygame.draw.rect(screen, (0, 0, 0), shapes[shape])
+
+            for shape_id in shapes:
+                screen.blit(shapes[shape_id][1], shapes[shape_id][0])
+                #pygame.draw.rect(screen, (0,255,0), shape)
             
             for line in lines:
-                pygame.draw.line(screen, (0, 0, 255),
-                                 lines[line][0], lines[line][1], 2)
+                pygame.draw.line(screen, (0, 0, 0),
+                                 lines[line][0], lines[line][1], 4)
             
-
             pygame.display.flip()
 
 

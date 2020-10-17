@@ -1,8 +1,9 @@
-from components import operator
-import List
-import Tuple
-class Addition(operator):
-    def __init__(self, side : int ,startPointx: int, startPointy: int):
+import pygame
+from components.operator import Operator
+from components.Shape import Shape
+
+class Subtraction(Operator):
+    def __init__(self, side: int, x: int, y: int):
         """
         ------------------------------------------------------------------
         __init__: Constructs the Addition object
@@ -12,11 +13,10 @@ class Addition(operator):
             num2: second number to be added
         Returns:
             sum of num1 and num2.
-        """    
-        super().__init__(side, startPointx, startPointy)
-        
-    
-    def doOperation(num1 : int, num2: int) -> int:
+        """
+        super().__init__(side, x, y)
+
+    def do_operation(self, num_1: int, num_2: int) -> int:
         """
         ------------------------------------------------------------------
         doOperation: Add given numbers
@@ -26,19 +26,19 @@ class Addition(operator):
             num2: second number to be added
         Returns:
             sum of num1 and num2.
-        """        
-        return num1 - num2
-    def draw():
+        """
+        return num_1 - num_2 if num_1 > num_2 else 0
+
+    def draw(self):
         """
         ------------------------------------------------------------------
-        draw: Draws the Subtraction Operator
+        draw: Return tuple of (Rect, Image)
         ------------------------------------------------------------------
-        """  
-        points = []
-        points = [(self.startPointx, self.startPointy),
-                        (self.startPointx, self.startPointy + side),
-                        (self.startPointx + side, self.startPointy + side/2)]
-        blue = (0, 0, 255)                
-        pygame.draw.polygon(window, blue, points)
-        return
-        
+        """
+        sub_img = pygame.image.load("assets/rectangle.png")
+        return (sub_img.get_rect(), sub_img)
+
+    def selected(self):
+        #Return selected version of draw.
+        sub_select_img = pygame.image.load("assets/rectangle_select.png")
+        return (sub_select_img.get_rect(), sub_select_img)
