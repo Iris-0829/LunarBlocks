@@ -32,7 +32,7 @@ class GameScene(Scene):
             (GAME_FIELD_POS_X + 4*GAME_FIELD_WIDTH//5, GAME_FIELD_POS_Y +  (GAME_FIELD_HEIGHT//2) - 100), 1)
         
         port_loc_in = get_port_loc(num_input, 1)
-        port_loc_out = get_port_loc(num_input, 0)
+        port_loc_out = get_port_loc(num_output, 0)
 
         #could be one lined but lol
         for loc in port_loc_in:
