@@ -5,7 +5,7 @@
 
 **Built with:** pygame, pygame_gui
 
-A simple game that would help younget students understand programming.
+A simple game that would help younger students understand programming.
 
 ## Inspiration
 With [the Ontario Math Curriculum now adding a coding component to Grades 1-8](https://www.cnn.com/2020/06/23/americas/ontario-math-curiculum-trnd/index.html#:~:text=Court%20confirmation%20hearings-,Ontario%20schools%20will%20now%20teach%20first%20graders%20financial%20literacy%20and,for%20jobs%20of%20the%20future&text=The%20new%20curriculum%2C%20announced%20by,the%20course%20of%20two%20years.), we want to develop a game/tool that will help younger students develop their coding skills, without having to write code.
@@ -34,6 +34,5 @@ Ideally, we would like to add more levels, more operations, and a sandbox mode! 
 
 
 ## Image Gallery
-
-## Video Demo Link
+![Alt text](game1.png)
 
