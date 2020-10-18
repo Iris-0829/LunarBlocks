@@ -1,5 +1,4 @@
 import pygame
-from components.operator import Operator
 from components.Shape import Shape
 
 """
@@ -7,7 +6,7 @@ Should delete? after transferring methods over to the SubtractNode.
 """
 
 
-class Subtraction(Operator):
+class Subtraction():
     def __init__(self, side: int, x: int, y: int, draggable = True):
         """
         ------------------------------------------------------------------

@@ -1,0 +1,70 @@
+{
+    "input": {
+        "ports": 2
+    },
+    "output": {
+        "ports": 1
+    },
+    "tests": {
+        "test_1": {
+            "input": {
+                "shape_1": {
+                    "filename": "../assets/red_rectangle.png",
+                    "color": "red",
+                    "scale": 1
+                },
+                "shape_2": {
+                    "filename": "../assets/red_rectangle.png",
+                    "color": "red",
+                    "scale": 1
+                }
+
+            },
+            "output": {
+                "Boolean": {
+                    "value": "True"
+                }
+            }
+        },
+        "test_2": {
+            "input": {
+                "shape_1": {
+                    "filename": "../assets/red_rectangle.png",
+                    "color": "red",
+                    "scale": 1
+                },
+                "shape_2": {
+                    "filename": "../assets/red_rectangle.png",
+                    "color": "red",
+                    "scale": 1.5
+                }
+
+            },
+            "output": {
+                "Boolean": {
+                    "value": "False"
+                }
+            }
+        },
+        "test_3": {
+            "input": {
+                "shape_1": {
+                    "filename": "../assets/yellow_rectangle.png",
+                    "color": "yellow",
+                    "scale": 0.5
+                },
+                "shape_2": {
+                    "filename": "../assets/yellow_rectangle.png",
+                    "color": "yellow",
+                    "scale": 0.5
+                }
+
+            },
+            "output": {
+                "Boolean": {
+                    "value": "True"
+                }
+            }
+        }
+    }
+}

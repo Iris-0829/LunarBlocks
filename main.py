@@ -1,10 +1,11 @@
 from pygame import gfxdraw
 import pygame_gui
 from operator_select import draw_layout
-from components.Addition import *
 from components.needs_node_version.Subtraction import *
+from components.commands.AdditionNode import *
 #from operator_select import *
 from components.CreateOperator import CreateOperator
+from scenes.Level import *
 from graph import *
 
 
@@ -59,13 +60,13 @@ def arrow(screen, lcolor, tricolor, start, end, trirad, thickness=2):
 # For Testing Purposes
 # ================================================================
 for i in range(2):
-    add = Addition(0, 600, 600)
+    add = AdditionNode(0, (600, 600))
     s = add.draw()
     add_shape(s[0], s[1], add)
-for i in range(2):
-    sub = Subtraction(0, 600, 600)
-    s = sub.draw()
-    add_shape(s[0], s[1], sub)
+#for i in range(2):
+#    sub = Subtraction(0, 600, 600)
+#    s = sub.draw()
+#    add_shape(s[0], s[1], sub)
 
 draw_layout(ui_man, SCREEN_HEIGHT, SCREEN_WIDTH)
 #ui_man.set_visual_debug_mode(True)
@@ -73,6 +74,7 @@ draw_layout(ui_man, SCREEN_HEIGHT, SCREEN_WIDTH)
 
 
 def game_loop():
+    level = GameScene(0)
     running = True
     while running:
         time_delta = clock.tick(60)/1000.0

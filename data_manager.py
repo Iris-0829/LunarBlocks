@@ -1,4 +1,6 @@
 from collections import defaultdict
+from components.commands.InNode import InNode
+from components.commands.OutNode import OutNode
 import math
 
 operator_set = []
@@ -18,6 +20,8 @@ drawing = False
 connected_lines = {}
 offset_x = 0
 offset_y = 0
+
+
 
 
 SCREEN_WIDTH = 1280
