@@ -1,5 +1,5 @@
 # LunarBlocks
-* Submission for HackTheU: Go Beyond hackathon (Fall 2020).
+* Submission for HackTheU: Go Beyond hackathon (Fall 2020). *
 
 **Created by:** Jan Garong, Jesse Maltese, Yining Wang, Rahul Sharma
 
