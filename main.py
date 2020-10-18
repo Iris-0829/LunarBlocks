@@ -1,12 +1,13 @@
 from pygame import gfxdraw
 import pygame_gui
-from operator_select import draw_layout
+from operator_select import *
 from components.needs_node_version.Subtraction import *
 from components.commands.AdditionNode import *
 #from operator_select import *
 from components.CreateOperator import CreateOperator
 from scenes.Level import *
 from graph import *
+
 from components.ScrollBar import ScrollBar
 
 
@@ -125,7 +126,7 @@ def game_loop():
             screen.fill((255, 255, 255))
             ui_man.draw_ui(screen)
             #PUT ALL GAME ELEMENTS BELOW HERE
-
+            draw_grid(screen)
             level.render(event)
             square_operator.display()
 
@@ -136,7 +137,8 @@ def game_loop():
                 screen.blit(shapes[shape_id][1], shapes[shape_id][0])
                 shapes[shape_id][2].loc = (shapes[shape_id][0].x, shapes[shape_id][0].y)
                 for port_rel_loc in shapes[shape_id][2].input_ports + shapes[shape_id][2].output_ports:
-                    shapes[shape_id][2].draw_port(screen, (255, 182, 193), port_rel_loc)                
+                    shapes[shape_id][2].draw_port(
+                        screen, (154, 154, 154), port_rel_loc)
 
             for line in lines:  
                 arrow(screen, (255,255,255), (255,255,255), lines[line][0], lines[line][1], 10, 5)

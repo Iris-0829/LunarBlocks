@@ -11,11 +11,11 @@ class Node:
         self.output_ports.append(relative_loc)
 
     def draw_port(self, screen, color: Tuple[int, int, int],
-                  relative_loc: Tuple[float, float], radius=5):
+                  relative_loc: Tuple[float, float], radius=7):
         # get new location
         loc = (self.loc[0] + relative_loc[0], self.loc[1] + relative_loc[1])
-        pygame.gfxdraw.aacircle(screen, loc[0], loc[1], radius, color)
         pygame.gfxdraw.filled_circle(screen, loc[0], loc[1], radius, color)
+        pygame.gfxdraw.aacircle(screen, loc[0], loc[1], radius, (0,0,0))
 
     def draw(self, screen, rotate=0):
         """
