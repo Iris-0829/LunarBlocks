@@ -1,6 +1,11 @@
 from typing import Tuple
 from components import operator
 
+"""
+MARKED FOR DELETION
+Reason: CommandTester
+"""
+
 
 class Commands:
     """

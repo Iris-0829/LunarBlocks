@@ -1,5 +1,10 @@
 from components import Memory
 
+"""
+MARKED FOR DELETION
+Reason: Assignments would not be made in this program.
+"""
+
 
 class AssignmentCommand(Memory):
     """
