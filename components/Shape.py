@@ -19,6 +19,14 @@ class Shape(Operand, Generic[shape]):
         """
         return self.scale == s.scale and self.color == s.color and self.filename == s.filename
 
+    def greater(self, s: shape) -> shape:
+        """
+        :returns: The shape (cloned) which is greater between the two.
+        """
+        if self.scale > s.scale:
+            return self.clone()
+        return s.clone()
+
     def add(self, s: shape) -> shape:
         """
         Adds the width and height to the original shape.
