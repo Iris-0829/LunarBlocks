@@ -37,8 +37,10 @@ class CreateOperator:
                 self.dim[1]
         if self.is_on:
             # create a new draggable operator
-
             newOperator = AdditionNode(0, (500, 400))
+            newOperator.add_input_port((0, 0))
+            newOperator.add_input_port((0, 100))
+            newOperator.add_output_port((100, 50))
             s = newOperator.draw(self.screen)
             add_shape(s[0], s[1], newOperator)
 
