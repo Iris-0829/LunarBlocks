@@ -8,8 +8,6 @@ from components.commands.OutNode import *
 from graph import * 
 from data_manager import *
 
-
-
 class GameScene(Scene):
     def __init__(self, level, screen):
         super(GameScene, self).__init__()

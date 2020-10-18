@@ -68,6 +68,8 @@ def arrow(screen, lcolor, tricolor, start, end, trirad, thickness=2):
 # ================================================================
 for i in range(2):
     add = AdditionNode(0, (600, 600))
+    add.add_input_port((0,0))
+    add.add_input_port((0,100))
     s = add.draw(screen)
     add_shape(s[0], s[1], add)
 #for i in range(2):
@@ -118,7 +120,8 @@ def game_loop():
                     elif event.ui_element == down_button:
                         square_operator.change_loc(-SCREEN_HEIGHT // 50)
            
-
+            #if event == pygame.MOUSEBUTTONDOWN:
+                
             ui_man.process_events(event)
 
             ui_man.update(time_delta)
@@ -138,6 +141,8 @@ def game_loop():
 
             for shape_id in shapes:
                 screen.blit(shapes[shape_id][1], shapes[shape_id][0])
+                for port_rel_loc in shapes[shape_id][2].input_ports + shapes[shape_id][2].output_ports:
+                    shapes[shape_id][2].draw_port(screen, (255, 182, 193), port_rel_loc)                
 
             for line in lines:  
                 arrow(screen, (255,255,255), (255,255,255), lines[line][0], lines[line][1], 10, 5)
