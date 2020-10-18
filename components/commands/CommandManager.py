@@ -4,17 +4,20 @@ from components.commands.OutNode import OutNode
 
 
 class CommandManager:
-    def __init__(self, ports: List[tuple], op_nodes: list, out_node: OutNode,
-                 in_node_loc: Tuple[float, float]) -> None:
+    def __init__(self, in_node: InNode, out_node: OutNode, op_nodes: list) -> None:
         """
         Initializes CommandManager.
         :param ports: List of tuples in the form (operand, next_node).
         :param op_nodes: List of all known operator nodes in the stage.
         :param out_node: Node where all operands should meet.
         """
-        self.ports = ports
-        self.in_node_loc = in_node_loc
-        self.in_node = InNode(ports, in_node_loc)
+
+        # input node metadata
+        self.ports = in_node.ports
+        self.in_node_loc = in_node.loc
+        self.in_node_num_input_ports = in_node.num_input_ports
+
+        self.in_node = in_node
         self.op_nodes = op_nodes
         self.out_node = out_node
 
@@ -28,7 +31,7 @@ class CommandManager:
         """
         Resets all nodes back to what it was.
         """
-        self.in_node = InNode(self.ports, self.in_node_loc)
+        self.in_node = InNode(self.ports, self.in_node_loc, self.in_node_num_input_ports)
         self.out_node.params = []
         for op in self.op_nodes:
             op.params = []

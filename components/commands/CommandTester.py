@@ -1,5 +1,6 @@
 from components.commands.CommandManager import CommandManager
 from components.commands.OutNode import OutNode
+from components.commands.InNode import InNode
 from typing import Tuple
 
 
@@ -19,18 +20,19 @@ def verify(res: list, expected: list):
 
 
 class CommandTester:
-    def __init__(self, ports: list, op_nodes: list, out_node: OutNode,
-                 in_node_loc: Tuple[float, float]):
+    def __init__(self, in_node: InNode, out_node: OutNode, op_nodes: list):
         """
         Initializes CommandTester.
         :param ports: List of ports that each shape should go in.
         :param op_nodes: List of all known operator nodes in the stage.
         :param out_node: Node where all operands should meet.
         """
-        self.ports = ports
+        self.ports = in_node.ports
+        self.in_node_loc = in_node.loc
+
         self.op_nodes = op_nodes
         self.out_node = out_node
-        self.in_node_loc = in_node_loc
+        self.in_node = in_node
 
     def test(self, operands: list) -> CommandManager:
         """
@@ -40,11 +42,9 @@ class CommandTester:
         """
 
         # build ports for CommandManager
-        operand_port_pair = []
-        for i in range(len(self.ports)):
-            operand_port_pair.append((operands[i], self.ports[i]))
-
-        return CommandManager(operand_port_pair, self.op_nodes, self.out_node, self.in_node_loc)
+        local_in_node = self.in_node.clone()
+        local_in_node.change_operands(operands)
+        return CommandManager(local_in_node, self.out_node, self.op_nodes)
 
     def test_auto(self, operands: list, expected: list) -> bool:
         """

@@ -16,6 +16,7 @@ class OutNode(Node):
         """
         self.params.append(operand)
 
-    def __init__(self, loc: Tuple[float, float]):
+    def __init__(self, loc: Tuple[float, float], num_output_ports):
         self.params = []
+        self.num_output_ports = num_output_ports
         super().__init__(loc, './assets/triangle.png')
