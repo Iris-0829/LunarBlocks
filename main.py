@@ -1,13 +1,12 @@
 from pygame import gfxdraw
 import pygame_gui
-from operator_select import *
+from operator_select import draw_layout
 from components.needs_node_version.Subtraction import *
 from components.commands.AdditionNode import *
 #from operator_select import *
 from components.CreateOperator import CreateOperator
 from scenes.Level import *
 from graph import *
-
 from components.ScrollBar import ScrollBar
 
 
@@ -22,17 +21,14 @@ ui_man = pygame_gui.UIManager((SCREEN_WIDTH, SCREEN_HEIGHT), "theme.json")
 
 # ==========operator_select_field===========================
 
-up_button_img = pygame.image.load("assets/up_button.png")
-down_button_img = pygame.image.load("assets/down_button.png")
-play_button_img = pygame.image.load("assets/play_button.png")
-up_button_rect = up_button_img.get_rect(center=(SCREEN_WIDTH * 0.1, SCREEN_HEIGHT // 20))
-down_button_rect = down_button_img.get_rect(center=(SCREEN_WIDTH * 0.1, SCREEN_HEIGHT * 0.8))
-play_button_rect = play_button_img.get_rect(center=(SCREEN_WIDTH * 0.6, SCREEN_HEIGHT * 0.4))
-
-def draw_button(screen):
-    screen.blit(up_button_img, up_button_rect)
-    screen.blit(down_button_img, down_button_rect)
-    screen.blit(play_button_img, play_button_rect)
+up_button = pygame_gui.elements.UIButton(
+    relative_rect=pygame.Rect(SCREEN_WIDTH * 0.07, SCREEN_HEIGHT // 20, SCREEN_WIDTH * 0.05, SCREEN_HEIGHT * 0.05),
+    text='UP',
+    manager=ui_man)
+down_button = pygame_gui.elements.UIButton(
+    relative_rect=pygame.Rect(SCREEN_WIDTH * 0.07, SCREEN_HEIGHT * 0.8, SCREEN_WIDTH * 0.05, SCREEN_HEIGHT * 0.05),
+    text='Down',
+    manager=ui_man)
 
 #Spawn in middle of game field:
 operators = []
@@ -73,6 +69,7 @@ for i in range(2):
     add = AdditionNode(0, (600, 600))
     add.add_input_port((0,0))
     add.add_input_port((0,100))
+    add.add_output_port((100,50))  
     s = add.draw(screen)
     add_shape(s[0], s[1], add)
 #for i in range(2):
@@ -120,19 +117,26 @@ def game_loop():
             screen.fill((255, 255, 255))
             ui_man.draw_ui(screen)
             #PUT ALL GAME ELEMENTS BELOW HERE
-            draw_grid(screen)
-            level.render(event)
+            t = level.render(event)
+            if t != (-1,-1):
+                print(type(hitlist))
+                hitlist.append(t)
+            length = len(hitlist)             
             square_operator.display()
-
+            
             scroll.display()
-
-
+            i = 0
+            while length % 2 == 0 and length>0 and i < length:
+                print(hitlist,"\n\n")
+                arrow(screen, (255,255,255), (255,255,255), hitlist[length-2 - i][0], hitlist[length-1-i][0], 10, 5)
+                #add_line(hitlist[length-2 - i][1][0], hitlist[length-2 - i][1][0], hitlist[length-2 - i][2], hitlist[length-2 - i][2])
+                i = i + 2
+                
             for shape_id in shapes:
                 screen.blit(shapes[shape_id][1], shapes[shape_id][0])
                 shapes[shape_id][2].loc = (shapes[shape_id][0].x, shapes[shape_id][0].y)
                 for port_rel_loc in shapes[shape_id][2].input_ports + shapes[shape_id][2].output_ports:
-                    shapes[shape_id][2].draw_port(
-                        screen, (154, 154, 154), port_rel_loc)
+                    shapes[shape_id][2].draw_port(screen, (255, 182, 193), port_rel_loc)                
 
             for line in lines:  
                 arrow(screen, (255,255,255), (255,255,255), lines[line][0], lines[line][1], 10, 5)

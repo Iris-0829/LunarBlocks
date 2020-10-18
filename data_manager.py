@@ -11,7 +11,7 @@ lines = {}
 edges = defaultdict(list)
 directed_graph = defaultdict(list)
 in_out = []
-
+hitlist=[]
 dragging = False
 dragged = None
 dragged_init_pos = None
