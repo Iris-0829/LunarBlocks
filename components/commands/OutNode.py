@@ -16,7 +16,7 @@ class OutNode(Node):
         """
         self.params.append(operand)
 
-    def __init__(self, loc: Tuple[float, float], num_output_ports):
+    def __init__(self, loc: Tuple[float, float], num_output_ports: int):
         self.params = []
         self.num_output_ports = num_output_ports
         self.draggable = False

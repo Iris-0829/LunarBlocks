@@ -28,7 +28,7 @@ class InNode(Node):
             pair[1].add_params(pair[0])
         self.ports = []  # ensures its not called again? remove if needed.
 
-    def __init__(self, ports: List[tuple], loc: Tuple[float, float], num_input_ports):
+    def __init__(self, ports: List[tuple], loc: Tuple[float, float], num_input_ports: int):
         """
         Initializes InNode.
         :param ports: List of tuples in the form (operand, next_node).
