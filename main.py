@@ -8,6 +8,7 @@ from components.CreateOperator import CreateOperator
 from scenes.Level import *
 from graph import *
 from components.ScrollBar import ScrollBar
+from scenes.Level import *
 
 
 
@@ -112,6 +113,10 @@ def game_loop():
                 elif down_button_rect.collidepoint(event.pos):
                     square_operator.change_loc(-SCREEN_HEIGHT // 50)
                     ineq_operator.change_loc(-SCREEN_HEIGHT // 50)
+                    selected = shapes[get_shape_id(level.in_tup[0])][0]
+                elif down_button_rect.collidepoint(event.pos):
+                    square_operator.change_loc(-SCREEN_HEIGHT // 50)
+                    selected = shapes[get_shape_id(level.out_tup[0])][0]
                 # elif play_button_rect.collidepoint(event.pos):
                     # mouse click play_button
 
@@ -129,7 +134,6 @@ def game_loop():
             #PUT ALL GAME ELEMENTS BELOW HERE
             t = level.render(event)
             if t != (-1,-1):
-                print(type(hitlist))
                 hitlist.append(t)
             length = len(hitlist)             
             square_operator.display()
@@ -137,22 +141,20 @@ def game_loop():
             
             scroll.display()
             i = 0
-            while length % 2 == 0 and length>0 and i < length:
-                print(hitlist,"\n\n")
-                arrow(screen, (255,255,255), (255,255,255), hitlist[length-2 - i][0], hitlist[length-1-i][0], 10, 5)
-                #add_line(hitlist[length-2 - i][1][0], hitlist[length-2 - i][1][0], hitlist[length-2 - i][2], hitlist[length-2 - i][2])
-                i = i + 2
-                
+            if(len(hitlist) > 1):
+                for item in list(zip(hitlist[::2], hitlist[1::2])):
+                    arrow(screen, (255,255,255), (255,255,255), item[0][0], item[1][0], 10, 5)
+
             for shape_id in shapes:
                 screen.blit(shapes[shape_id][1], shapes[shape_id][0])
                 shapes[shape_id][2].loc = (shapes[shape_id][0].x, shapes[shape_id][0].y)
                 for port_rel_loc in shapes[shape_id][2].input_ports + shapes[shape_id][2].output_ports:
                     shapes[shape_id][2].draw_port(screen, (255, 182, 193), port_rel_loc)                
 
-            for line in lines:  
-                arrow(screen, (255,255,255), (255,255,255), lines[line][0], lines[line][1], 10, 5)
+            #for line in lines:  
+            #    arrow(screen, (255,255,255), (255,255,255), lines[line][0], lines[line][1], 10, 5)
 
-            draw_button(screen)
+            # draw_button(screen)
             pygame.display.flip()
 
 game_loop()

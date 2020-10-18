@@ -4,26 +4,23 @@ from typing import List, Tuple
 import math
 def makeList():
     print("Made list yay")
-    global listforadding
     listforadding = []
     return
 
 def CheckCircle(posClick, input_port: Tuple[Tuple[int]], loc:Tuple[int])-> int:
-    print("over here now")
     for i in range(0, len(input_port)):
-        x = (posClick[0] - (input_port[i][0]+loc[0]))*(posClick[0] - (input_port[i][0]+loc[0]))
+        x = (posClick[0] - (input_port[i][0] + loc[0]))*(posClick[0] - (input_port[i][0]+loc[0]))
         y = (posClick[1] - (input_port[i][1] + loc[1]))*(posClick[1] - (input_port[i][1]+loc[1]))
         if 15 > math.sqrt(x + y):
             print("returning hit in port",i)
-            return i
-    print("No hit")    
+            return i  
     return -1    
           
 def drawAng(screen, angle, pos):
     nar=pygame.transform.rotate(arrow,angle)
     nrect=nar.get_rect(center=pos)
     screen.blit(nar, nrect)
-def make_arrow(screen, shape1, shape2, i , j):
+""" def make_arrow(screen, shape1, shape2, i , j):
     '''
     Shape1 and Shape2 are 3 tuples of (Rect_obj, shape_img, operatorNode)
     along with ith and jth position for the hit
@@ -42,30 +39,28 @@ def make_arrow(screen, shape1, shape2, i , j):
     ##So it is necessary to invert the y coordinate when using math
     angle=math.degrees(angle)
     angle+=180
-    drawAng(angle, pos2, arrow)
+    drawAng(angle, pos2, arrow) """
                     
 def add_line(shape1, shape2, i , j):
     # create line between shapes.
     global SHAPE_ID
     global LINE_ID
     try:
-        shapeId_1 = get_shape_id(shape1)
-        shapeId_2 = get_shape_id(shape2)
-        edges[shapeId_1].append(LINE_ID)
-        edges[shapeId_2].append(LINE_ID)
-        directed_graph[shapeId_1].append(shapeId_2)
         if i != -1 and j != -1:
+            shapeId_1 = get_shape_id(shape1)
+            shapeId_2 = get_shape_id(shape2)
+            edges[shapeId_1].append(LINE_ID)
+            edges[shapeId_2].append(LINE_ID)
+            directed_graph[shapeId_1].append(shapeId_2)
             lines[LINE_ID] = [(shapes[shapeId_1][2].input_ports[i][0] +shapes[shapeId_1][2].loc[0],
                                shapes[shapeId_1][2].input_ports[i][1] +shapes[shapeId_1][2].loc[1]),
                                (shapes[shapeId_2][2].output_ports[j][0] + shapes[shapeId_2][2].loc[0],
                                 shapes[shapeId_2][2].output_ports[j][0] + shapes[shapeId_2][2].loc[1])]
-        LINE_ID += 1
+            LINE_ID += 1
     except Exception as e: 
         print(e)
     #except:
         #print("addLine(), problem!")
-    return
-
 
 def add_shape(Rect_obj, shape_img, operator):
     global SHAPE_ID
@@ -84,14 +79,13 @@ def get_shape_id(shape):
 
 
 def get_connected_lines(shape_id, shape_pos):
-    d = {}
-    for line_id in edges[shape_id]:
-        line = lines[line_id]
-        if line[0] == shape_pos:
-            d[line_id] = 0
-        else:
-            d[line_id] = 1
-    return d
+    #find the lines that are connected in hitlist:
+    h = []
+    for i in range(len(hitlist)):
+        if(shape_id == hitlist[i][3]):
+            h.append(i)
+    return h
+
 
 def graph_draw(event, screen)-> Tuple[int]:
     global dragging, dragged, dragged_id, dragged_init_pos, selected, offset_x, offset_y, connected_lines
@@ -104,17 +98,20 @@ def graph_draw(event, screen)-> Tuple[int]:
                     m_x, m_y = event.pos
                     checker1 = CheckCircle((m_x, m_y),shapes[shape_id][2].input_ports, shapes[shape_id][2].loc)
                     checker2 = CheckCircle((m_x, m_y),shapes[shape_id][2].output_ports, shapes[shape_id][2].loc)
+                    print(checker1, checker2)
                     if checker1 > -1:
                         return ((shapes[shape_id][2].input_ports[checker1][0] + shapes[shape_id][2].loc[0], 
-                                shapes[shape_id][2].input_ports[checker1][1] + shapes[shape_id][2].loc[1]),shapes[shape_id], checker1) 
+                                shapes[shape_id][2].input_ports[checker1][1] + shapes[shape_id][2].loc[1]), shapes[shape_id], checker1, shape_id, ['in', checker1]) 
                     if checker2 > -1:
-                        return ((shapes[shape_id][2].output_ports[checker1][0] + shapes[shape_id][2].loc[0], 
-                                shapes[shape_id][2].output_ports[checker1][1] + shapes[shape_id][2].loc[1]),shapes[shape_id], checker2) 
+                        return ((shapes[shape_id][2].output_ports[checker2][0] + shapes[shape_id][2].loc[0], 
+                                shapes[shape_id][2].output_ports[checker2][1] + shapes[shape_id][2].loc[1]),shapes[shape_id], checker2, shape_id, ['out', checker2]) 
                     if(shape.collidepoint(event.pos)):
                         if(selected != shape) and (selected is not None):
                             # draws the line and deselect shape
-                            add_line(selected, shape)
+                            print(selected, shape)
+                            add_line(selected, shape, checker1, checker2)
                             selected = None
+                            checker1 = checker2 = -1
                             shapes[dragged_id][1] = shapes[dragged_id][2].draw(screen)[1]
                             break
                         else:
@@ -126,6 +123,7 @@ def graph_draw(event, screen)-> Tuple[int]:
 
                             # Gets all lines connected to shape, along with which end is connected to our shape.
                             connected_lines = get_connected_lines(dragged_id, dragged_init_pos)
+                            print(connected_lines)
 
                             m_x, m_y = event.pos
                             offset_x = shape.x - m_x
@@ -134,12 +132,13 @@ def graph_draw(event, screen)-> Tuple[int]:
 
     if event.type == pygame.MOUSEBUTTONUP:
         if event.button == 1:
+            """"
             if(dragged is not None and dragged_init_pos is not None):
-                if(dragged.x == dragged_init_pos[0] and dragged.y == dragged_init_pos[1]):
-                    selected = dragged
-                    s = shapes[dragged_id]
-                    s[1] = s[2].selected()[1]
-
+                    if(dragged.x == dragged_init_pos[0] and dragged.y == dragged_init_pos[1]):
+                        selected = dragged
+                        s = shapes[dragged_id]
+                        s[1] = s[2].selected()[1] 
+            """
             dragging = False
             dragged = None
             dragged_init_pos = None 
@@ -147,7 +146,6 @@ def graph_draw(event, screen)-> Tuple[int]:
     if event.type == pygame.MOUSEMOTION:
         if dragging:
             #move shape and snap to grid
-            print("moving")
             m_x, m_y = event.pos
             p_x = m_x + offset_x
             p_y = m_y + offset_y
@@ -161,8 +159,20 @@ def graph_draw(event, screen)-> Tuple[int]:
                 dragged.x = p_x
                 dragged.y = p_y
             #move our line properly
-            for key in connected_lines:
-                idx = connected_lines[key]
-                line = lines[key]
-                line[idx] = (dragged.x, dragged.y)
+            for i in connected_lines:
+                h = list(hitlist[i])
+                s_id = h[3]
+                chk_ls = h[4]
+                chkr = chk_ls[1]
+                if(chk_ls[0] == "in"):
+                    h[0] = (shapes[s_id][2].input_ports[chkr][0] + shapes[s_id][2].loc[0],
+                            shapes[s_id][2].input_ports[chkr][1] + shapes[s_id][2].loc[1])
+                else:
+                    h[0] = (shapes[s_id][2].output_ports[chkr][0] + shapes[s_id][2].loc[0],
+                            shapes[s_id][2].output_ports[chkr][1] + shapes[s_id][2].loc[1])
+
+                hitlist[i] = tuple(h)
+
+                #line = lines[key]
+                #line[idx] = (dragged.x, dragged.y)
     return (-1,-1)
