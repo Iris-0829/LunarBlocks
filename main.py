@@ -39,8 +39,13 @@ operators = []
 square_operator = CreateOperator(screen, "assets/triangle_add.png",
                                  (SCREEN_WIDTH // 16, SCREEN_HEIGHT // 5),
                                     ((GAME_FIELD_WIDTH + GAME_FIELD_POS_X)//2,
-                                     (GAME_FIELD_HEIGHT + GAME_FIELD_POS_Y)//2))
+                                     (GAME_FIELD_HEIGHT + GAME_FIELD_POS_Y)//2), "AdditionNode")
 operators.append(square_operator)
+ineq_operator = CreateOperator(screen, "assets/ineq.png",
+                                 (SCREEN_WIDTH // 16, 2 * SCREEN_HEIGHT // 5),
+                                    ((GAME_FIELD_WIDTH + GAME_FIELD_POS_X)//2,
+                                     (GAME_FIELD_HEIGHT + GAME_FIELD_POS_Y)//2), "IneqNode")
+operators.append(ineq_operator)
 scroll = ScrollBar(screen, "assets/scrollbar.png", (SCREEN_WIDTH // 6, SCREEN_WIDTH // 9), operators)
 
 # ========================================
@@ -98,12 +103,16 @@ def game_loop():
                 if event.button == 1:
                     scroll.is_holding(event.pos)
                     square_operator.isOn(event.pos)
+                    ineq_operator.isOn(event.pos)
 
             if event.type == pygame.MOUSEBUTTONUP:
                 scroll.release()
                 if up_button_rect.collidepoint(event.pos):
-                    print("click up button")
                     square_operator.change_loc(SCREEN_HEIGHT // 50)
+                    ineq_operator.change_loc(SCREEN_HEIGHT // 50)
+                elif down_button_rect.collidepoint(event.pos):
+                    square_operator.change_loc(-SCREEN_HEIGHT // 50)
+                    ineq_operator.change_loc(-SCREEN_HEIGHT // 50)
                     selected = shapes[get_shape_id(level.in_tup[0])][0]
                 elif down_button_rect.collidepoint(event.pos):
                     square_operator.change_loc(-SCREEN_HEIGHT // 50)
@@ -128,6 +137,7 @@ def game_loop():
                 hitlist.append(t)
             length = len(hitlist)             
             square_operator.display()
+            ineq_operator.display()
             
             scroll.display()
             i = 0
@@ -144,7 +154,7 @@ def game_loop():
             #for line in lines:  
             #    arrow(screen, (255,255,255), (255,255,255), lines[line][0], lines[line][1], 10, 5)
 
-            #draw_button(screen)
+            # draw_button(screen)
             pygame.display.flip()
 
 game_loop()
