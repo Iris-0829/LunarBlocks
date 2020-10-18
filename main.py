@@ -116,7 +116,7 @@ def game_loop():
             ui_man.draw_ui(screen)
             #PUT ALL GAME ELEMENTS BELOW HERE
 
-            level.render(screen, event)
+            level.render(event)
             square_operator.display()
 
             scroll.display()

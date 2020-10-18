@@ -23,8 +23,8 @@ class CommandTester:
         """
         Initializes CommandTester.
         :param ports: List of ports that each shape should go in.
+        :param out_node: Node where all operands should meet.   
         :param op_nodes: List of all known operator nodes in the stage.
-        :param out_node: Node where all operands should meet.
         """
         self.ports = in_node.ports
         self.in_node_loc = in_node.loc

@@ -10,6 +10,12 @@ class InNode(Node):
 
     def change_operands(self, operands: list):
         new_ports = []
+        if(operands is None):
+            print("InNode: No operands!")
+            return
+        if(self.ports is None):
+            print("InNode: No ports!")
+            return
         for i in range(len(operands)):
             new_ports.append((operands[i], self.ports[i][1]))
         self.ports = new_ports
