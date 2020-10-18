@@ -12,7 +12,7 @@ def verify(res: list, expected: list):
     if len(res) != len(expected):
         return False
     for i in range(len(res)):
-        if res[i] != expected[i]:
+        if not res[i].equals(expected[i]):
             return False
     return True
 
