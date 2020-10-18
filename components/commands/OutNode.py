@@ -1,4 +1,8 @@
-class OutNode:
+from components.commands.Node import Node
+from typing import Tuple
+
+
+class OutNode(Node):
 
     def execute(self):
         """
@@ -12,5 +16,7 @@ class OutNode:
         """
         self.params.append(operand)
 
-    def __init__(self):
+    def __init__(self, loc: Tuple[float, float]):
         self.params = []
+        self.ports = ports
+        super().__init__(loc, './assets/triangle.png')
