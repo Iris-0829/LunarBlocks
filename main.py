@@ -14,7 +14,7 @@ from components.ScrollBar import ScrollBar
 
 pygame.init()
 fps_clock = pygame.time.Clock()
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), (pygame.RESIZABLE))
 surface = pygame.Surface(screen.get_size()).convert()
 ui_man = pygame_gui.UIManager((SCREEN_WIDTH, SCREEN_HEIGHT), "theme.json")
 
@@ -78,6 +78,7 @@ draw_layout(ui_man, SCREEN_HEIGHT, SCREEN_WIDTH)
 
 
 def game_loop():
+    global screen
     level = GameScene(0, screen)
     running = True
     while running:
@@ -85,6 +86,10 @@ def game_loop():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            elif event.type == pygame.VIDEORESIZE:
+                SCREEN_WIDTH = event.w
+                SCREEN_HEIGHT = event.h
+                screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.RESIZABLE)
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     scroll.is_holding(event.pos)
