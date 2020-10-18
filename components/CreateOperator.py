@@ -58,7 +58,7 @@ class CreateOperator:
                 add_shape(s[0], s[1], newOperator)
             elif self.ope_type == "eqNode":
                 # create a new equalityNode operator
-                newOperator = EqualityNode(0, (650, 400))
+                newOperator = EqualityNode(0, (800, 400))
                 newOperator.add_input_port((0, 20))
                 newOperator.add_input_port((0, 80))
                 newOperator.add_output_port((100, 50))
