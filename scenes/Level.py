@@ -11,12 +11,13 @@ from data_manager import *
 
 
 class GameScene(Scene):
-    def __init__(self, level):
+    def __init__(self, level, screen):
         super(GameScene, self).__init__()
         self.level = level
         level_file = self.load_level()
         print(level_file)
         level_data = {}
+        self.screen = screen
 
 
         with open(level_file, "r") as f:
@@ -26,11 +27,12 @@ class GameScene(Scene):
         num_output = level_data["output"]["ports"]
         tests = level_data["tests"]
 
-        self.in_node = InNode(None, (GAME_FIELD_POS_X + 50, GAME_FIELD_POS_Y + (GAME_FIELD_HEIGHT//2) - 100))
+        # self.in_node = InNode(None, (GAME_FIELD_POS_X + 50, GAME_FIELD_POS_Y + (GAME_FIELD_HEIGHT//2) - 100))
+        self.in_node = InNode(None, (GAME_FIELD_POS_X + 50, GAME_FIELD_POS_Y + (GAME_FIELD_HEIGHT // 2) - 100), 0)
         self.out_node = OutNode(
-            (GAME_FIELD_POS_X + 4*GAME_FIELD_WIDTH//5, GAME_FIELD_POS_Y +  (GAME_FIELD_HEIGHT//2) - 100))
-        in_tup = self.in_node.draw()
-        out_tup = self.out_node.draw()
+            (GAME_FIELD_POS_X + 4*GAME_FIELD_WIDTH//5, GAME_FIELD_POS_Y +  (GAME_FIELD_HEIGHT//2) - 100), 0)
+        in_tup = self.in_node.draw(screen)
+        out_tup = self.out_node.draw(screen)
         add_shape(in_tup[0], in_tup[1], self.in_node)
         add_shape(out_tup[0], pygame.transform.rotate(out_tup[1], 180), self.in_node)
 

@@ -78,7 +78,7 @@ draw_layout(ui_man, SCREEN_HEIGHT, SCREEN_WIDTH)
 
 
 def game_loop():
-    level = GameScene(0)
+    level = GameScene(0, screen)
     running = True
     while running:
         time_delta = clock.tick(60)/1000.0
