@@ -1,6 +1,5 @@
 import pygame
 from components.CreateOperator import CreateOperator
-from components.Draggable import Draggable
 
 pygame.init()
 screen = pygame.display.set_mode((800, 600))

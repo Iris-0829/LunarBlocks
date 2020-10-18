@@ -11,7 +11,8 @@ class OperatorNode(Node):
         # check if it needs parameters
         if self.output is not None and self.next_node is not None and not self.passed:
             # might need to convert to dict for if modules.
-            self.next_node.add_params(self.output)
+            for out in self.output:
+                self.next_node.add_params(out)
             self.params = []  # reset parameters? not like its going to come back to this again
             self.passed = True
 
@@ -25,7 +26,7 @@ class OperatorNode(Node):
 
     def __init__(self, next_node, num_params, loc, filename_img, draggable=True):
         self.params = []
-        self.output = None
+        self.output = []
         self.next_node = next_node
         self.num_params = num_params
         self.passed = False

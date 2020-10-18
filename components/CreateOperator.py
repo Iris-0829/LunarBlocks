@@ -1,6 +1,5 @@
 from typing import Tuple
 import pygame
-from components.Draggable import Draggable
 from components.commands.AdditionNode import AdditionNode
 from graph import add_shape
 

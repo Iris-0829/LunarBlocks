@@ -47,12 +47,12 @@ class CommandManager:
         self.start()
         can_move = True
         while can_move:
-            can_move = self.execute(draw_mode=False)
+            can_move = self.execute(draw_mode=False)[0]
         out = self.get_output()
         self.reset()
         return out
 
-    def execute(self, draw_mode=True) -> bool:
+    def execute(self, draw_mode=True):
         """
         Executes an operation, if applicable.
         :returns: True if any of the operators have been executed. False otherwise.
@@ -61,10 +61,9 @@ class CommandManager:
             # op.execute()
             res = op.execute()
             if res == 0:
-                # draw op.output (use draw_mode to determine whether to do this or not).
                 op.advance()
-                return True
-        return False
+                return True, op.params, op.output
+        return False, [], []
 
     def get_output(self) -> list:
         """

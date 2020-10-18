@@ -22,7 +22,7 @@ class AdditionNode(OperatorNode):
         """
         # default for now is Shape; might need to extend to Operands later?
         def action(s1: Shape, s2: Shape):
-            return s1.add(s2)
+            return [s1.add(s2)]
 
         try:
             self.output = action(*tuple(self.params))
