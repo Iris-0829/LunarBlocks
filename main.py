@@ -32,7 +32,7 @@ down_button = pygame_gui.elements.UIButton(
 
 #Spawn in middle of game field:
 operators = []
-square_operator = CreateOperator(screen, "assets/rectangle.png",
+square_operator = CreateOperator(screen, "assets/triangle_add.png",
                                  (SCREEN_WIDTH // 16, SCREEN_HEIGHT // 5),
                                     ((GAME_FIELD_WIDTH + GAME_FIELD_POS_X)//2,
                                      (GAME_FIELD_HEIGHT + GAME_FIELD_POS_Y)//2))

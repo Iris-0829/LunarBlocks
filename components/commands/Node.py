@@ -14,7 +14,8 @@ class Node:
                   relative_loc: Tuple[float, float], radius=5):
         # get new location
         loc = (self.loc[0] + relative_loc[0], self.loc[1] + relative_loc[1])
-        pygame.draw.circle(screen, color, loc, radius)
+        pygame.gfxdraw.aacircle(screen, loc[0], loc[1], radius, color)
+        pygame.gfxdraw.filled_circle(screen, loc[0], loc[1], radius, color)
 
     def draw(self, screen, rotate=0):
         """
