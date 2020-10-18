@@ -3,6 +3,10 @@ from components.Shape import Shape
 from typing import Tuple
 import pygame
 
+"""
+Warning: EqualityNode only works only if it's next_node is the OutNode.
+"""
+
 
 class EqualityNode(OperatorNode):
 
