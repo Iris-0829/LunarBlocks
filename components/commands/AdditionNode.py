@@ -11,7 +11,7 @@ class AdditionNode(OperatorNode):
         Returns a tuple of a rectangle and image in the selected state.
         :return: Returns a tuple of (Rect, Image)
         """
-        sub_select_img = pygame.image.load("assets/rectangle_select.png")
+        sub_select_img = pygame.image.load("assets/triangle_add_select.png")
         sub_select_rect = sub_select_img.get_rect().move(*self.loc)
         return sub_select_rect, sub_select_img
 
@@ -33,4 +33,4 @@ class AdditionNode(OperatorNode):
             return 1  # error!
 
     def __init__(self, next_node, loc: Tuple[float, float]):
-        super().__init__(next_node, 2, loc, './assets/rectangle.png')  # needs 2 operands
+        super().__init__(next_node, 2, loc, './assets/triangle_add.png')  # needs 2 operands
