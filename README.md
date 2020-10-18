@@ -24,6 +24,8 @@ We confronted challenges when we tried to connect UI with backend. We found that
 Firstly it is worth spending time on the overall project planning and structuring so that the teamwork would efficient. Moreover, we learnt proper time management and tasks assignment to teammates. 
 
 ## What's next for LunarBlocks
+Ideally, we would like to add more levels, more operations, and a sandbox mode! As well, a good tutorial would be valuable as the learning curve for the game still feels too high for our target audience. As well, giving the game more of a theme would be fun - as the name suggests we originally intended for it to be Space themed but that didn't work out. It would give the game quite a bit more character to have some fun, themed assets. We'd also like to turn it into a web app as we found PyGame to be quite clunky at times. The future is bright for LunarBlocks! 
+
 
 ## Image Gallery
 
