@@ -38,9 +38,8 @@ class GameScene(Scene):
 
 
 
-
-    def render(self, event):
-        graph_draw(event, self.screen)  
+    def render(self, event)->Tuple[int]:
+        return graph_draw(event, self.screen)  
     
     def get_operators(self):
         return [shapes[shape_id][2] for shape_id in shapes]

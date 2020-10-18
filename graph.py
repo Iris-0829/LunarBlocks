@@ -2,13 +2,21 @@ import pygame
 from data_manager import * 
 from typing import List, Tuple
 import math
-def CheckCircle(posClick, input_port: Tuple[Tuple[int]])-> int:
+def makeList():
+    print("Made list yay")
+    global listforadding
+    listforadding = []
+    return
+
+def CheckCircle(posClick, input_port: Tuple[Tuple[int]], loc:Tuple[int])-> int:
+    print("over here now")
     for i in range(0, len(input_port)):
-        x = (posClick[0] - input_port[i][0])*(posClick[0] - input_port[i][0])
-        y = (posClick[1] - input_port[i][1])*(posClick[1] - input_port[i][1])
-        if 5 > math.sqrt(x + y):
+        x = (posClick[0] - (input_port[i][0]+loc[0]))*(posClick[0] - (input_port[i][0]+loc[0]))
+        y = (posClick[1] - (input_port[i][1] + loc[1]))*(posClick[1] - (input_port[i][1]+loc[1]))
+        if 15 > math.sqrt(x + y):
+            print("returning hit in port",i)
             return i
-        
+    print("No hit")    
     return -1    
           
 def drawAng(screen, angle, pos):
@@ -36,7 +44,7 @@ def make_arrow(screen, shape1, shape2, i , j):
     angle+=180
     drawAng(angle, pos2, arrow)
                     
-def add_line(shape1, shape2, i: int , j: int):
+def add_line(shape1, shape2, i , j):
     # create line between shapes.
     global SHAPE_ID
     global LINE_ID
@@ -47,10 +55,15 @@ def add_line(shape1, shape2, i: int , j: int):
         edges[shapeId_2].append(LINE_ID)
         directed_graph[shapeId_1].append(shapeId_2)
         if i != -1 and j != -1:
-            lines[LINE_ID] = [shape1[2].input_port[i], shape2[2].output_port[j]]
+            lines[LINE_ID] = [(shapes[shapeId_1][2].input_ports[i][0] +shapes[shapeId_1][2].loc[0],
+                               shapes[shapeId_1][2].input_ports[i][1] +shapes[shapeId_1][2].loc[1]),
+                               (shapes[shapeId_2][2].output_ports[j][0] + shapes[shapeId_2][2].loc[0],
+                                shapes[shapeId_2][2].output_ports[j][0] + shapes[shapeId_2][2].loc[1])]
         LINE_ID += 1
-    except:
-        print("addLine(), problem!")
+    except Exception as e: 
+        print(e)
+    #except:
+        #print("addLine(), problem!")
     return
 
 
@@ -80,17 +93,27 @@ def get_connected_lines(shape_id, shape_pos):
             d[line_id] = 1
     return d
 
-def graph_draw(event, screen):
+def graph_draw(event, screen)-> Tuple[int]:
     global dragging, dragged, dragged_id, dragged_init_pos, selected, offset_x, offset_y, connected_lines
+    
     if event.type == pygame.MOUSEBUTTONDOWN:
         if event.button == 1:
             if not dragging:
                 for shape_id in shapes:
                     shape = shapes[shape_id][0]
+                    m_x, m_y = event.pos
+                    checker1 = CheckCircle((m_x, m_y),shapes[shape_id][2].input_ports, shapes[shape_id][2].loc)
+                    checker2 = CheckCircle((m_x, m_y),shapes[shape_id][2].output_ports, shapes[shape_id][2].loc)
+                    if checker1 > -1:
+                        return ((shapes[shape_id][2].input_ports[checker1][0] + shapes[shape_id][2].loc[0], 
+                                shapes[shape_id][2].input_ports[checker1][1] + shapes[shape_id][2].loc[1]),shapes[shape_id], checker1) 
+                    if checker2 > -1:
+                        return ((shapes[shape_id][2].output_ports[checker1][0] + shapes[shape_id][2].loc[0], 
+                                shapes[shape_id][2].output_ports[checker1][1] + shapes[shape_id][2].loc[1]),shapes[shape_id], checker2) 
                     if(shape.collidepoint(event.pos)):
                         if(selected != shape) and (selected is not None):
                             # draws the line and deselect shape
-                            add_line(selected, shape, -1, -1)
+                            add_line(selected, shape)
                             selected = None
                             shapes[dragged_id][1] = shapes[dragged_id][2].draw(screen)[1]
                             break
@@ -135,7 +158,6 @@ def graph_draw(event, screen):
 
             #Make sure shape is in bounds
             if (p_x < (GAME_FIELD_POS_X + GAME_FIELD_WIDTH) and p_x > (GAME_FIELD_POS_X) and p_y > GAME_FIELD_POS_Y):
-                print(dragged)
                 dragged.x = p_x
                 dragged.y = p_y
             #move our line properly
@@ -143,3 +165,4 @@ def graph_draw(event, screen):
                 idx = connected_lines[key]
                 line = lines[key]
                 line[idx] = (dragged.x, dragged.y)
+    return (-1,-1)
