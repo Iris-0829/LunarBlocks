@@ -1,7 +1,18 @@
 import pygame
 from typing import Tuple
 
-
+def get_port_loc(n_inputs: int, in_or_out: int ):
+    #This is TRASH and BAD and only works for 100x100 shapes. /shrug
+    #Im ashamed i write this.
+    #1 for in, 0 for out
+    loc_x = 100 if in_or_out == 1 else 0
+    if(n_inputs == 1):
+        return [(loc_x, 50)]
+    if(n_inputs == 2):
+        return [(loc_x, 25), (loc_x, 75)]
+    if(n_inputs == 3):
+        return [(loc_x, 0), (loc_x, 50), (loc_x, 100)]
+    
 class Node:
 
     def add_input_port(self, relative_loc: Tuple[float, float]):

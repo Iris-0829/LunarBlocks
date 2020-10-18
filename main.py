@@ -139,7 +139,7 @@ def game_loop():
                 screen.blit(shapes[shape_id][1], shapes[shape_id][0])
                 shapes[shape_id][2].loc = (shapes[shape_id][0].x, shapes[shape_id][0].y)
                 for port_rel_loc in shapes[shape_id][2].input_ports + shapes[shape_id][2].output_ports:
-                    shapes[shape_id][2].draw_port(screen, (255, 182, 193), port_rel_loc)                
+                    shapes[shape_id][2].draw_port(screen, (154, 154, 154), port_rel_loc)                
 
             #for line in lines:  
             #    arrow(screen, (255,255,255), (255,255,255), lines[line][0], lines[line][1], 10, 5)

@@ -5,6 +5,7 @@ import json
 from scenes.Scene import * 
 from components.commands.InNode import *
 from components.commands.OutNode import *
+from components.commands.Node import *
 from components.commands.CommandManager import *
 from components.commands.CommandTester import *
 from components.Operand import * 
@@ -29,6 +30,16 @@ class GameScene(Scene):
         self.in_node = InNode(None, (GAME_FIELD_POS_X + 50, GAME_FIELD_POS_Y + (GAME_FIELD_HEIGHT//2) - 100), 2)
         self.out_node = OutNode(
             (GAME_FIELD_POS_X + 4*GAME_FIELD_WIDTH//5, GAME_FIELD_POS_Y +  (GAME_FIELD_HEIGHT//2) - 100), 1)
+        
+        port_loc_in = get_port_loc(num_input, 1)
+        port_loc_out = get_port_loc(num_input, 0)
+
+        #could be one lined but lol
+        for loc in port_loc_in:
+            self.in_node.add_input_port(loc)
+        for loc in port_loc_out:
+            self.out_node.add_output_port(loc)
+
         self.in_tup = self.in_node.draw(screen)
         self.out_tup = self.out_node.draw(screen)
         add_shape(self.in_tup[0], self.in_tup[1], self.in_node)
