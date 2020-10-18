@@ -25,9 +25,15 @@ up_button = pygame_gui.elements.UIButton(
     relative_rect=pygame.Rect(SCREEN_WIDTH * 0.07, SCREEN_HEIGHT // 20, SCREEN_WIDTH * 0.05, SCREEN_HEIGHT * 0.05),
     text='UP',
     manager=ui_man)
+# up_button_image = pygame.image.load("assets/triangle.png")
+# up_button.set_image(up_button_image)
 down_button = pygame_gui.elements.UIButton(
     relative_rect=pygame.Rect(SCREEN_WIDTH * 0.07, SCREEN_HEIGHT * 0.8, SCREEN_WIDTH * 0.05, SCREEN_HEIGHT * 0.05),
     text='Down',
+    manager=ui_man)
+play_button = pygame_gui.elements.UIButton(
+    relative_rect=pygame.Rect(SCREEN_WIDTH * 0.55, SCREEN_HEIGHT * 0.4, SCREEN_WIDTH * 0.1, SCREEN_HEIGHT * 0.05),
+    text='Next Step',
     manager=ui_man)
 
 #Spawn in middle of game field:
