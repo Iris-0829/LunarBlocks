@@ -7,6 +7,7 @@ from components.commands.AdditionNode import *
 from components.CreateOperator import CreateOperator
 from scenes.Level import *
 from graph import *
+from components.ScrollBar import ScrollBar
 
 
 
@@ -29,9 +30,12 @@ down_button = pygame_gui.elements.UIButton(
     text='Down',
     manager=ui_man)
 
-#Spawn in middle of game field: 
-square_operator = CreateOperator(screen, "assets/square.png", (SCREEN_WIDTH // 15, SCREEN_HEIGHT // 5), 
+#Spawn in middle of game field:
+operators = []
+square_operator = CreateOperator(screen, "assets/square.png", (SCREEN_WIDTH // 15, SCREEN_HEIGHT // 5),
                                     ((GAME_FIELD_WIDTH + GAME_FIELD_POS_X)//2, (GAME_FIELD_HEIGHT + GAME_FIELD_POS_Y)//2))
+operators.append(square_operator)
+scroll = ScrollBar(screen, "assets/scrollbar.png", (SCREEN_WIDTH // 6, SCREEN_WIDTH // 9), operators)
 
 # ========================================
 
@@ -83,18 +87,29 @@ def game_loop():
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
+                    scroll.is_holding(event.pos)
                     square_operator.isOn(event.pos)
                     for new_operator in square_operator.draggable_operator:
                         new_operator.is_holding(event.pos)
 
             if event.type == pygame.MOUSEBUTTONUP:
+                scroll.release()
                 if event.button == 1:
                     for new_operator in square_operator.draggable_operator:
                         new_operator.release()
             
             if event.type == pygame.MOUSEMOTION:
+                scroll.update_loc(event.pos)
                 for new_operator in square_operator.draggable_operator:
                     new_operator.update_loc(event.pos)
+
+            if event.type == pygame.USEREVENT:
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == up_button:
+                        square_operator.change_loc(SCREEN_HEIGHT // 50)
+                    elif event.ui_element == down_button:
+                        square_operator.change_loc(-SCREEN_HEIGHT // 50)
+
 
 
             graph_draw(event)
@@ -107,6 +122,8 @@ def game_loop():
             ui_man.draw_ui(screen)
 
             square_operator.display()
+
+            scroll.display()
 
             for new_operator in square_operator.draggable_operator:
                 new_operator.display()
