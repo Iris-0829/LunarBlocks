@@ -154,7 +154,7 @@ def game_loop():
             #for line in lines:  
             #    arrow(screen, (255,255,255), (255,255,255), lines[line][0], lines[line][1], 10, 5)
 
-            # draw_button(screen)
+            draw_button(screen)
             pygame.display.flip()
 
 game_loop()

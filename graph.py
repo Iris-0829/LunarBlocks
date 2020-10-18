@@ -55,7 +55,7 @@ def add_line(shape1, shape2, i , j):
             lines[LINE_ID] = [(shapes[shapeId_1][2].input_ports[i][0] +shapes[shapeId_1][2].loc[0],
                                shapes[shapeId_1][2].input_ports[i][1] +shapes[shapeId_1][2].loc[1]),
                                (shapes[shapeId_2][2].output_ports[j][0] + shapes[shapeId_2][2].loc[0],
-                                shapes[shapeId_2][2].output_ports[j][0] + shapes[shapeId_2][2].loc[1])]
+                                shapes[shapeId_2][2].output_ports[j][1] + shapes[shapeId_2][2].loc[1])]
             LINE_ID += 1
     except Exception as e: 
         print(e)
@@ -89,7 +89,8 @@ def get_connected_lines(shape_id, shape_pos):
 
 def graph_draw(event, screen)-> Tuple[int]:
     global dragging, dragged, dragged_id, dragged_init_pos, selected, offset_x, offset_y, connected_lines
-    
+    mousestate = pygame.mouse.get_pressed()
+    print(mousestate)
     if event.type == pygame.MOUSEBUTTONDOWN:
         if event.button == 1:
             if not dragging:
@@ -147,14 +148,17 @@ def graph_draw(event, screen)-> Tuple[int]:
         if dragging:
             #move shape and snap to grid
             m_x, m_y = event.pos
-            p_x = m_x + offset_x
-            p_y = m_y + offset_y
-            #p_x = round((m_x + offset_x) /
-            #                grid_square_size)*grid_square_size
-            #p_y = round((m_y + offset_y) /
-            #                grid_square_size)*grid_square_size
+            p_x = round((m_x + offset_x) /
+                            grid_square_size)*grid_square_size
+            p_y = round((m_y + offset_y) /
+                            grid_square_size)*grid_square_size
 
             #Make sure shape is in bounds
+            
+                #idx = connected_lines[key]
+                #line = lines[key]
+                #print(line)
+                #line[idx] = (dragged.x , dragged.y)            
             if (p_x < (GAME_FIELD_POS_X + GAME_FIELD_WIDTH) and p_x > (GAME_FIELD_POS_X) and p_y > GAME_FIELD_POS_Y):
                 dragged.x = p_x
                 dragged.y = p_y
@@ -175,4 +179,10 @@ def graph_draw(event, screen)-> Tuple[int]:
 
                 #line = lines[key]
                 #line[idx] = (dragged.x, dragged.y)
+    if mousestate[2] == 1:
+        for shape_id in shapes:
+            if(shapes[shape_id][0].collidepoint(event.pos)):
+                remember_id = shape_id
+        shapes.pop(remember_id)    
+            
     return (-1,-1)
