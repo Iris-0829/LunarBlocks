@@ -14,7 +14,7 @@ from components.ScrollBar import ScrollBar
 
 pygame.init()
 fps_clock = pygame.time.Clock()
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), (pygame.RESIZABLE))
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 surface = pygame.Surface(screen.get_size()).convert()
 ui_man = pygame_gui.UIManager((SCREEN_WIDTH, SCREEN_HEIGHT), "theme.json")
 
@@ -83,7 +83,6 @@ draw_layout(ui_man, SCREEN_HEIGHT, SCREEN_WIDTH)
 
 
 def game_loop():
-    global screen
     level = GameScene(0, screen)
     running = True
     while running:
@@ -91,10 +90,6 @@ def game_loop():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            elif event.type == pygame.VIDEORESIZE:
-                SCREEN_WIDTH = event.w
-                SCREEN_HEIGHT = event.h
-                screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.RESIZABLE)
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     scroll.is_holding(event.pos)
@@ -121,7 +116,6 @@ def game_loop():
                         square_operator.change_loc(-SCREEN_HEIGHT // 50)
            
             #if event == pygame.MOUSEBUTTONDOWN:
-                
             ui_man.process_events(event)
 
             ui_man.update(time_delta)
@@ -141,6 +135,7 @@ def game_loop():
 
             for shape_id in shapes:
                 screen.blit(shapes[shape_id][1], shapes[shape_id][0])
+                shapes[shape_id][2].loc = (shapes[shape_id][0].x, shapes[shape_id][0].y)
                 for port_rel_loc in shapes[shape_id][2].input_ports + shapes[shape_id][2].output_ports:
                     shapes[shape_id][2].draw_port(screen, (255, 182, 193), port_rel_loc)                
 

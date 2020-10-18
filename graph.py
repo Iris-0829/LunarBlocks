@@ -46,7 +46,8 @@ def add_line(shape1, shape2, i: int , j: int):
         edges[shapeId_1].append(LINE_ID)
         edges[shapeId_2].append(LINE_ID)
         directed_graph[shapeId_1].append(shapeId_2)
-        lines[LINE_ID] = [shape1[2].input_port[i], shape2[2].output_port[j]]
+        if i != -1 and j != -1:
+            lines[LINE_ID] = [shape1[2].input_port[i], shape2[2].output_port[j]]
         LINE_ID += 1
     except:
         print("addLine(), problem!")
@@ -89,7 +90,7 @@ def graph_draw(event, screen):
                     if(shape.collidepoint(event.pos)):
                         if(selected != shape) and (selected is not None):
                             # draws the line and deselect shape
-                            add_line(selected, shape)
+                            add_line(selected, shape, -1, -1)
                             selected = None
                             shapes[dragged_id][1] = shapes[dragged_id][2].draw(screen)[1]
                             break
@@ -123,6 +124,7 @@ def graph_draw(event, screen):
     if event.type == pygame.MOUSEMOTION:
         if dragging:
             #move shape and snap to grid
+            print("moving")
             m_x, m_y = event.pos
             p_x = round((m_x + offset_x) /
                             grid_square_size)*grid_square_size
@@ -131,6 +133,7 @@ def graph_draw(event, screen):
 
             #Make sure shape is in bounds
             if (p_x < (GAME_FIELD_POS_X + GAME_FIELD_WIDTH) and p_x > (GAME_FIELD_POS_X) and p_y > GAME_FIELD_POS_Y):
+                print(dragged)
                 dragged.x = p_x
                 dragged.y = p_y
             #move our line properly
