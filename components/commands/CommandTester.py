@@ -13,8 +13,12 @@ def verify(res: list, expected: list):
     if len(res) != len(expected):
         return False
     for i in range(len(res)):
-        if not res[i].equals(expected[i]):
-            return False
+        try:
+            if not res[i].equals(expected[i]):
+                return False
+        except AttributeError:
+            if res[i] != expected[i]:
+                return False
     return True
 
 
