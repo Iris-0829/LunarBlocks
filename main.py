@@ -32,7 +32,6 @@ down_button = pygame_gui.elements.UIButton(
 
 #Spawn in middle of game field:
 operators = []
-# add = AdditionNode(0, (600, 600))
 square_operator = CreateOperator(screen, "assets/rectangle.png",
                                  (SCREEN_WIDTH // 16, SCREEN_HEIGHT // 5),
                                     ((GAME_FIELD_WIDTH + GAME_FIELD_POS_X)//2,
@@ -94,19 +93,12 @@ def game_loop():
                 if event.button == 1:
                     scroll.is_holding(event.pos)
                     square_operator.isOn(event.pos)
-                    for new_operator in square_operator.draggable_operator:
-                        new_operator.is_holding(event.pos)
 
             if event.type == pygame.MOUSEBUTTONUP:
                 scroll.release()
-                if event.button == 1:
-                    for new_operator in square_operator.draggable_operator:
-                        new_operator.release()
             
             if event.type == pygame.MOUSEMOTION:
                 scroll.update_loc(event.pos)
-                for new_operator in square_operator.draggable_operator:
-                    new_operator.update_loc(event.pos)
 
             if event.type == pygame.USEREVENT:
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
@@ -128,9 +120,6 @@ def game_loop():
             square_operator.display()
 
             scroll.display()
-
-            # for new_operator in square_operator.draggable_operator:
-            #     new_operator.display()
 
 
             for shape_id in shapes:
