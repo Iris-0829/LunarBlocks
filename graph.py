@@ -1,7 +1,7 @@
 import pygame
 from data_manager import * 
 from typing import List, Tuple
-def drawAng(screen, angle, pos):
+def drawAng(screen, angle, pos, arrow):
     nar=pygame.transform.rotate(arrow,angle)
     nrect=nar.get_rect(center=pos)
     screen.blit(nar, nrect)
@@ -22,7 +22,7 @@ def make_arrow(screen, shape1, shape2):
     ##So it is necessary to invert the y coordinate when using math
     angle=math.degrees(angle)
     angle+=180
-    drawAng(angle, pos2)            
+    drawAng(angle, pos2, arrow)
                     
 def add_line(shape1, shape2):
     # create line between shapes.
@@ -67,7 +67,7 @@ def get_connected_lines(shape_id, shape_pos):
             d[line_id] = 1
     return d
 
-def graph_draw(event):
+def graph_draw(event, screen):
     global dragging, dragged, dragged_id, dragged_init_pos, selected, offset_x, offset_y, connected_lines
     if event.type == pygame.MOUSEBUTTONDOWN:
         if event.button == 1:
@@ -79,7 +79,7 @@ def graph_draw(event):
                             # draws the line and deselect shape
                             add_line(selected, shape)
                             selected = None
-                            shapes[dragged_id][1] = shapes[dragged_id][2].draw()[1]
+                            shapes[dragged_id][1] = shapes[dragged_id][2].draw(screen)[1]
                             break
                         else:
                             dragged_id = get_shape_id(shape)

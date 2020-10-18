@@ -27,10 +27,9 @@ class GameScene(Scene):
         num_output = level_data["output"]["ports"]
         tests = level_data["tests"]
 
-        # self.in_node = InNode(None, (GAME_FIELD_POS_X + 50, GAME_FIELD_POS_Y + (GAME_FIELD_HEIGHT//2) - 100))
-        self.in_node = InNode(None, (GAME_FIELD_POS_X + 50, GAME_FIELD_POS_Y + (GAME_FIELD_HEIGHT // 2) - 100), 0)
+        self.in_node = InNode(None, (GAME_FIELD_POS_X + 50, GAME_FIELD_POS_Y + (GAME_FIELD_HEIGHT // 2) - 100), 2)
         self.out_node = OutNode(
-            (GAME_FIELD_POS_X + 4*GAME_FIELD_WIDTH//5, GAME_FIELD_POS_Y +  (GAME_FIELD_HEIGHT//2) - 100), 0)
+            (GAME_FIELD_POS_X + 4*GAME_FIELD_WIDTH//5, GAME_FIELD_POS_Y +  (GAME_FIELD_HEIGHT//2) - 100), 1)
         in_tup = self.in_node.draw(screen)
         out_tup = self.out_node.draw(screen)
         add_shape(in_tup[0], in_tup[1], self.in_node)
@@ -38,7 +37,7 @@ class GameScene(Scene):
 
 
     def render(self, screen, event):
-        graph_draw(event)  
+        graph_draw(event, screen)
 
 
 
