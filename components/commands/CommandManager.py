@@ -1,10 +1,11 @@
-from typing import List
+from typing import List, Tuple
 from components.commands.InNode import InNode
 from components.commands.OutNode import OutNode
 
 
 class CommandManager:
-    def __init__(self, ports: List[tuple], op_nodes: list, out_node: OutNode) -> None:
+    def __init__(self, ports: List[tuple], op_nodes: list, out_node: OutNode,
+                 in_node_loc: Tuple[float, float]) -> None:
         """
         Initializes CommandManager.
         :param ports: List of tuples in the form (operand, next_node).
@@ -12,7 +13,8 @@ class CommandManager:
         :param out_node: Node where all operands should meet.
         """
         self.ports = ports
-        self.in_node = InNode(ports)
+        self.in_node_loc = in_node_loc
+        self.in_node = InNode(ports, in_node_loc)
         self.op_nodes = op_nodes
         self.out_node = out_node
 
@@ -26,7 +28,7 @@ class CommandManager:
         """
         Resets all nodes back to what it was.
         """
-        self.in_node = InNode(self.ports)
+        self.in_node = InNode(self.ports, self.in_node_loc)
         self.out_node.params = []
         for op in self.op_nodes:
             op.params = []

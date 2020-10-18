@@ -1,5 +1,6 @@
 from components.commands.CommandManager import CommandManager
 from components.commands.OutNode import OutNode
+from typing import Tuple
 
 
 def verify(res: list, expected: list):
@@ -18,7 +19,8 @@ def verify(res: list, expected: list):
 
 
 class CommandTester:
-    def __init__(self, ports: list, op_nodes: list, out_node: OutNode):
+    def __init__(self, ports: list, op_nodes: list, out_node: OutNode,
+                 in_node_loc: Tuple[float, float]):
         """
         Initializes CommandTester.
         :param ports: List of ports that each shape should go in.
@@ -28,6 +30,7 @@ class CommandTester:
         self.ports = ports
         self.op_nodes = op_nodes
         self.out_node = out_node
+        self.in_node_loc = in_node_loc
 
     def test(self, operands: list) -> CommandManager:
         """
@@ -41,7 +44,7 @@ class CommandTester:
         for i in range(len(self.ports)):
             operand_port_pair.append((operands[i], self.ports[i]))
 
-        return CommandManager(operand_port_pair, self.op_nodes, self.out_node)
+        return CommandManager(operand_port_pair, self.op_nodes, self.out_node, self.in_node_loc)
 
     def test_auto(self, operands: list, expected: list) -> bool:
         """

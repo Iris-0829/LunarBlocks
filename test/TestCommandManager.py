@@ -9,7 +9,7 @@ from components.commands.OutNode import OutNode
 class TestCommandManager(unittest.TestCase):
 
     def setUp(self):
-        self.out = OutNode()
+        self.out = OutNode((0, 0))
         self.a1 = AdditionNode(next_node=self.out, loc=(0, 0))
         self.a2 = AdditionNode(next_node=self.a1, loc=(0, 0))
         self.s1 = Shape(None, '', 1, (5, 5), (0, 0, 0))
@@ -33,7 +33,7 @@ class TestCommandManager(unittest.TestCase):
 
 
 if '__main__' == __name__:
-    out = OutNode()
+    out = OutNode((0, 0))
     a1 = AdditionNode(next_node=out, loc=(0, 0))
     a2 = AdditionNode(next_node=a1, loc=(0, 0))
     s1 = Shape(None, '', 1, (5, 5), (0, 0, 0))
