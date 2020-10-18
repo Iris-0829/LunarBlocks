@@ -1,7 +1,7 @@
 import pygame
 from data_manager import * 
 from typing import List, Tuple
-def drawAng(screen, angle, pos):
+def drawAng(screen, angle, pos, arrow):
     nar=pygame.transform.rotate(arrow,angle)
     nrect=nar.get_rect(center=pos)
     screen.blit(nar, nrect)
@@ -22,7 +22,7 @@ def make_arrow(screen, shape1, shape2):
     ##So it is necessary to invert the y coordinate when using math
     angle=math.degrees(angle)
     angle+=180
-    drawAng(angle, pos2)            
+    drawAng(angle, pos2, arrow)
                     
 def add_line(shape1, shape2):
     # create line between shapes.

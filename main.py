@@ -32,8 +32,11 @@ down_button = pygame_gui.elements.UIButton(
 
 #Spawn in middle of game field:
 operators = []
-square_operator = CreateOperator(screen, "assets/square.png", (SCREEN_WIDTH // 15, SCREEN_HEIGHT // 5),
-                                    ((GAME_FIELD_WIDTH + GAME_FIELD_POS_X)//2, (GAME_FIELD_HEIGHT + GAME_FIELD_POS_Y)//2))
+# add = AdditionNode(0, (600, 600))
+square_operator = CreateOperator(screen, "assets/rectangle.png",
+                                 (SCREEN_WIDTH // 16, SCREEN_HEIGHT // 5),
+                                    ((GAME_FIELD_WIDTH + GAME_FIELD_POS_X)//2,
+                                     (GAME_FIELD_HEIGHT + GAME_FIELD_POS_Y)//2))
 operators.append(square_operator)
 scroll = ScrollBar(screen, "assets/scrollbar.png", (SCREEN_WIDTH // 6, SCREEN_WIDTH // 9), operators)
 
@@ -129,8 +132,9 @@ def game_loop():
 
             scroll.display()
 
-            for new_operator in square_operator.draggable_operator:
-                new_operator.display()
+            # for new_operator in square_operator.draggable_operator:
+            #     new_operator.display()
+
 
             for shape_id in shapes:
                 screen.blit(shapes[shape_id][1], shapes[shape_id][0])

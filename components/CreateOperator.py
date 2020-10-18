@@ -1,6 +1,8 @@
 from typing import Tuple
 import pygame
 from components.Draggable import Draggable
+from components.commands.AdditionNode import AdditionNode
+from graph import add_shape
 
 
 class CreateOperator:
@@ -36,6 +38,9 @@ class CreateOperator:
                 self.dim[1]
         if self.is_on:
             # create a new draggable operator
-            newOperator = Draggable(self.screen, self.filename, self.spawn_loc)
-            self.draggable_operator.append(newOperator)
+
+            newOperator = AdditionNode(0, (500, 400))
+            s = newOperator.draw(self.screen)
+            add_shape(s[0], s[1], newOperator)
+
 
