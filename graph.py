@@ -180,9 +180,11 @@ def graph_draw(event, screen)-> Tuple[int]:
                 #line = lines[key]
                 #line[idx] = (dragged.x, dragged.y)
     if mousestate[2] == 1:
+        remeber_id = -1
         for shape_id in shapes:
             if(shapes[shape_id][0].collidepoint(event.pos)):
                 remember_id = shape_id
-        shapes.pop(remember_id)    
+        if remember_id != -1:
+            shapes.pop(remember_id)    
             
     return (-1,-1)
