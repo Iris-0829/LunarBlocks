@@ -1,5 +1,6 @@
 import pygame
 import pygame_gui
+from ast import literal_eval as make_tuple
 import os
 import json
 from scenes.Scene import * 
@@ -34,7 +35,7 @@ class GameScene(Scene):
         port_loc_in = get_port_loc(num_input, 1)
         port_loc_out = get_port_loc(num_output, 0)
 
-        #could be one lined but lol
+        #could be one lined but lol 
         for loc in port_loc_in:
             self.in_node.add_input_port(loc)
         for loc in port_loc_out:
@@ -46,14 +47,20 @@ class GameScene(Scene):
         add_shape(self.out_tup[0], self.out_tup[1], self.out_node)
 
         self.tests = self.construct_test_set(level_data["tests"])
-
-
+        print(self.tests)
+        #self.run_test(1)
 
     def render(self, event)->Tuple[int]:
-        return graph_draw(event, self.screen)  
+        return graph_draw(event, self.screen, self)  
     
     def get_operators(self):
-        return [shapes[shape_id][2] for shape_id in shapes]
+        s = []
+        for shape_id in shapes:
+            shp = shapes[shape_id][2]
+            if shp != self.in_node and shp != self.out_node:
+                s.append(shp)
+
+        return s
 
     def construct_test_set(self, tests): 
         #test_dict is of the form {"test_n": [input, output]}
@@ -69,11 +76,15 @@ class GameScene(Scene):
             for key in input: 
                 data = input[key]
                 try:
-                    shape = Operand(self.screen, data["filename"], data["scale"], (0,0), data["color"])
+                    shape = Operand(self.screen, data["filename"], data["scale"], (0,0), make_tuple(data["color"]))
                     shape_list.append(shape)
-                except:
+                except Exception as e:
                     print("Error in level file input: level_" + str(self.level))
-                    return            
+                    print(e)
+                    return   
+
+
+
             expect = []
             for type_of in output:
                 if type_of == "bool":
@@ -85,27 +96,42 @@ class GameScene(Scene):
                             expect.append(False)
 
                 elif type_of == "Shape":
-                    for s in output[type_of]:
-                        data = output[type_of][s]
-                        try:
-                            shape = Operand(self.screen, data["filename"], data["scale"], (0,0), data["color"])
-                            expect.append(shape)
-                        except:
-                            print("Error in level file output: level_" +str(self.level))
-                            return
+                    data = output[type_of]
+                    try:
+                        shape = Operand(self.screen, data["filename"], data["scale"], (0, 0), make_tuple(data["color"]))
+                        expect.append(shape)
+                    except Exception as e:
+                        print("Error in level file output: level_" + str(self.level))
+                        print(e)
+                        
             test_dict[test_n] = [shape_list, expect]
         
         return test_dict
     
-    def run_test(self, n):
+    def do_test_step(self, n):
         self.cmd_tester = CommandTester(self.in_node, self.out_node, self.get_operators())
         test = []
         try:
             test = self.tests["test_" + str(n)]
-        except:
+        except Exception as e:
             print("Test does not exist!")
+            print(e)
         
-        self.cmd_man = self.cmd_tester.test()
+        self.cmd_man = self.cmd_tester.test(test[0])
+    
+    def run_full_test(self, n):
+        self.cmd_tester = CommandTester(self.in_node, self.out_node, self.get_operators())
+        test = []
+        try:
+            test = self.tests["test_" + str(n)]
+        except Exception as e:
+            print("Test does not exist!")
+            print(e)
+            return 
+        print(test)
+        print(self.cmd_tester.test_auto(test[0], test[1]))
+        
+
 
 
 

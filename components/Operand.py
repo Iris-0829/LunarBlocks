@@ -27,7 +27,6 @@ class Operand(pygame.sprite.Sprite):
         self.color = color
         self.filename = filename
         self.scale = scale
-
         # load image if scene does exist
         if self.screen is not None:
             self.img = pygame.image.load(self.filename)

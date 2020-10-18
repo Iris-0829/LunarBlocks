@@ -1,5 +1,6 @@
 from pygame import gfxdraw
 import pygame_gui
+import time
 from operator_select import draw_layout
 from components.needs_node_version.Subtraction import *
 from components.commands.AdditionNode import *
@@ -80,25 +81,14 @@ def arrow(screen, lcolor, tricolor, start, end, trirad, thickness=2):
 # ==============================================================
 # For Testing Purposes
 # ================================================================
-for i in range(2):
-    add = AdditionNode(0, (600, 600))
-    add.add_input_port((0,0))
-    add.add_input_port((0,100))
-    add.add_output_port((100,50))  
-    s = add.draw(screen)
-    add_shape(s[0], s[1], add)
-#for i in range(2):
-#    sub = Subtraction(0, 600, 600)
-#    s = sub.draw()
-#    add_shape(s[0], s[1], sub)
 
 draw_layout(ui_man, SCREEN_HEIGHT, SCREEN_WIDTH)
 #ui_man.set_visual_debug_mode(True)
 #============================================================================
 
-
 def game_loop():
-    level = GameScene(0, screen)
+    START_FADE = False
+    level = GameScene(1, screen)
     running = True
     while running:
         time_delta = clock.tick(60)/1000.0
@@ -123,9 +113,12 @@ def game_loop():
                     ineq_operator.change_loc(-SCREEN_HEIGHT // 50)
                     eq_operator.change_loc(-SCREEN_HEIGHT // 50)
                     selected = shapes[get_shape_id(level.in_tup[0])][0]
-                elif down_button_rect.collidepoint(event.pos):
-                    square_operator.change_loc(-SCREEN_HEIGHT // 50)
-                    selected = shapes[get_shape_id(level.out_tup[0])][0]
+
+                elif play_button_rect.collidepoint(event.pos):
+                    print("play!")
+                    START_FADE = True
+
+
                 # elif play_button_rect.collidepoint(event.pos):
                     # mouse click play_button
 
@@ -165,6 +158,18 @@ def game_loop():
             #    arrow(screen, (255,255,255), (255,255,255), lines[line][0], lines[line][1], 10, 5)
 
             draw_button(screen)
+            if(START_FADE):
+                check = pygame.image.load("./assets/checkmark.png").convert()
+                i = 0
+                while i < 255:
+                    i += 255/60
+                    check.set_alpha(i)
+                    screen.blit(check, check.get_rect())
+                while i > 0:
+                    i -= 255/30
+                    check.set_alpha(i)
+                    screen.blit(check, check.get_rect())
+                START_FADE = False
             pygame.display.flip()
 
 game_loop()

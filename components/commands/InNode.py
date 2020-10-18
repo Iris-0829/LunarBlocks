@@ -5,6 +5,10 @@ import pygame
 
 class InNode(Node):
 
+    def add_port(self, relative_loc: Tuple[float, float]):
+        self.ports.append(relative_loc)
+    
+
     def clone(self):
         return InNode(self.ports, self.loc, self.num_input_ports)
 
@@ -16,6 +20,7 @@ class InNode(Node):
         if(self.ports is None):
             print("InNode: No ports!")
             return
+        print(operands, self.ports)
         for i in range(len(operands)):
             new_ports.append((operands[i], self.ports[i][1]))
         self.ports = new_ports
@@ -31,6 +36,9 @@ class InNode(Node):
         Moves operands to their ports.
         NOTE: Call this only ONCE.
         """
+        if(self.ports is None):
+            print("InNode: No ports!")
+            return
         for pair in self.ports:
             pair[1].add_params(pair[0])
         self.ports = []  # ensures its not called again? remove if needed.
@@ -45,7 +53,7 @@ class InNode(Node):
         Initializes InNode.
         :param ports: List of tuples in the form (operand, next_node).
         """
-        self.ports = ports
+        self.ports = []
         self.num_input_ports = num_input_ports
         self.draggable = False
         super().__init__(loc, './assets/square_in.png')

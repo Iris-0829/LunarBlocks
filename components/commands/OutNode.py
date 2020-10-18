@@ -5,6 +5,9 @@ import pygame
 
 class OutNode(Node):
 
+    def add_port(self, relative_loc: Tuple[float, float]):
+        self.ports.append(relative_loc)
+
     def execute(self):
         """
         Returns received output.
@@ -24,6 +27,7 @@ class OutNode(Node):
 
     def __init__(self, loc: Tuple[float, float], num_output_ports: int):
         self.params = []
+        self.ports = []
         self.num_output_ports = num_output_ports
         self.draggable = False
         super().__init__(loc, './assets/square_out.png')

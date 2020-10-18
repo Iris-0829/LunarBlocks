@@ -1,0 +1,76 @@
+{
+    "input": {
+        "ports": 2
+    },
+    "output": {
+        "ports": 1
+    },
+    "tests": {
+        "test_1": {
+            "input": {
+                "shape_1": {
+                    "filename": "./assets/rectangle.png",
+                    "color": "(0,255,0)",
+                    "scale": 1
+                },
+                "shape_2": {
+                    "filename": "./assets/rectangle.png",
+                    "color": "(0,255,0)",
+                    "scale": 1
+                }
+
+            },
+            "output": {
+                "Shape": {
+                    "filename": "./assets/rectangle.png",
+                    "color": "(0,255,0)",
+                    "scale": 2
+                }
+            }
+        },
+        "test_2": {
+            "input": {
+                "shape_1": {
+                    "filename": "./assets/rectangle.png",
+                    "color": "(0,255,0)",
+                    "scale": 1
+                },
+                "shape_2": {
+                    "filename": "./assets/rectangle.png",
+                    "color": "(0,255,0)",
+                    "scale": 1.5
+                }
+
+            },
+            "output": {
+                "Shape": {
+                    "filename": "./assets/rectangle.png",
+                    "color": "(0,255,0)",
+                    "scale": 3.5
+                }
+            }
+        },
+        "test_3": {
+            "input": {
+                "shape_1": {
+                    "filename": "./assets/rectangle.png",
+                    "color": "(0,0,255)",
+                    "scale": 0.5
+                },
+                "shape_2": {
+                    "filename": "./assets/rectangle.png",
+                    "color": "(0,0,255)",
+                    "scale": 0.5
+                }
+
+            },
+            "output": {
+                "Shape": {
+                    "filename": "./assets/rectangle.png",
+                    "color": "(0,0,255)",
+                    "scale": 1
+                }
+            }
+        }
+    }
+}
