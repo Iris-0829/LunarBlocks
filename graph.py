@@ -60,18 +60,18 @@ def graph_draw(event):
                             break
                         else:
                             dragged_id = get_shape_id(shape)
-                            #if(shapes[dragged_id][2].draggable == True):
-                            dragging = True
-                            dragged = shape
-                            dragged_init_pos = (shape.x, shape.y)
+                            if(shapes[dragged_id][2].draggable == True):
+                                dragging = True
+                                dragged = shape
+                                dragged_init_pos = (shape.x, shape.y)
 
-                            # Gets all lines connected to shape, along with which end is connected to our shape.
-                            connected_lines = get_connected_lines(dragged_id, dragged_init_pos)
+                                # Gets all lines connected to shape, along with which end is connected to our shape.
+                                connected_lines = get_connected_lines(dragged_id, dragged_init_pos)
 
-                            m_x, m_y = event.pos
-                            offset_x = shape.x - m_x
-                            offset_y = shape.y - m_y
-                            break
+                                m_x, m_y = event.pos
+                                offset_x = shape.x - m_x
+                                offset_y = shape.y - m_y
+                                break
 
     if event.type == pygame.MOUSEBUTTONUP:
         if event.button == 1:
@@ -79,7 +79,10 @@ def graph_draw(event):
                 if(dragged.x == dragged_init_pos[0] and dragged.y == dragged_init_pos[1]):
                     selected = dragged
                     s = shapes[dragged_id]
-                    s[1] = s[2].selected()[1]
+                    try: 
+                        s[1] = s[2].selected()[1]
+                    except: 
+                        pass
 
             dragging = False
             dragged = None

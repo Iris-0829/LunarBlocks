@@ -23,10 +23,11 @@ class OperatorNode(Node):
             self.params.append(operand)
         print("Warning: Adding too many parameters here.")
 
-    def __init__(self, next_node, num_params, loc, filename_img):
+    def __init__(self, next_node, num_params, loc, filename_img, draggable=True):
         self.params = []
         self.output = None
         self.next_node = next_node
         self.num_params = num_params
         self.passed = False
+        self.draggable = draggable
         super().__init__(loc, filename_img)

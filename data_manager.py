@@ -3,12 +3,14 @@ from components.commands.InNode import InNode
 from components.commands.OutNode import OutNode
 import math
 
+#All of this needs to be cleared when a new level starts: 
 operator_set = []
 operand_set = []
 shapes = defaultdict(list)
 lines = {}
 edges = defaultdict(list)
 directed_graph = defaultdict(list)
+in_out = []
 
 dragging = False
 dragged = None
@@ -26,7 +28,6 @@ offset_y = 0
 
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 800
-
 GAME_FIELD_POS_X = SCREEN_WIDTH//5
 GAME_FIELD_POS_Y = SCREEN_HEIGHT//3
 GAME_FIELD_WIDTH = 4*SCREEN_WIDTH//5

@@ -109,10 +109,7 @@ def game_loop():
                         square_operator.change_loc(SCREEN_HEIGHT // 50)
                     elif event.ui_element == down_button:
                         square_operator.change_loc(-SCREEN_HEIGHT // 50)
-
-
-
-            graph_draw(event)
+           
 
             ui_man.process_events(event)
 
@@ -120,7 +117,9 @@ def game_loop():
             
             screen.fill((255, 255, 255))
             ui_man.draw_ui(screen)
+            #PUT ALL GAME ELEMENTS BELOW HERE
 
+            level.render(screen, event)
             square_operator.display()
 
             scroll.display()

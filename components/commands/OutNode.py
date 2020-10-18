@@ -19,4 +19,5 @@ class OutNode(Node):
     def __init__(self, loc: Tuple[float, float], num_output_ports):
         self.params = []
         self.num_output_ports = num_output_ports
+        self.draggable = False
         super().__init__(loc, './assets/triangle.png')

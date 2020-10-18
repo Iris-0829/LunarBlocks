@@ -35,4 +35,5 @@ class InNode(Node):
         """
         self.ports = ports
         self.num_input_ports = num_input_ports
+        self.draggable = False
         super().__init__(loc, './assets/triangle.png')
