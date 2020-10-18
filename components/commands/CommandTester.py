@@ -3,6 +3,12 @@ from components.commands.OutNode import OutNode
 
 
 def verify(res: list, expected: list):
+    """
+    Checks if lists are the same.
+    :param res: List that is actually produced.
+    :param expected: List that is expected.
+    :return: True if res == expected.
+    """
     if len(res) != len(expected):
         return False
     for i in range(len(res)):
@@ -37,3 +43,13 @@ class CommandTester:
 
         return CommandManager(operand_port_pair, self.op_nodes, self.out_node)
 
+    def test_auto(self, operands: list, expected: list) -> bool:
+        """
+        Automatically tests CommandManager and compares it against whats produced and expected.
+        :param operands: List of operands ( len(operands) == len(self.ports) ).
+        :param expected: List of what we expect from the output.
+        :return: True if expected = operands.
+        """
+        cm = self.test(operands)
+        out = cm.auto()
+        return verify(out, expected)
