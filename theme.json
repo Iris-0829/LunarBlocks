@@ -1,37 +1,4 @@
  {
-     "#up_button":
-     {
-         "images": {
-             "normal_image": {
-                 "path": "assets/up_button.png"
-             }
-         },
-         "hovered_image": {
-             "path": "assets/up_button.png"
-         }
-     },
-     "#down_button":
-     {
-         "images": {
-             "normal_image": {
-                 "path": "assets/down_button.png"
-             }
-         },
-         "hovered_image": {
-             "path": "assets/up_button.png"
-         }
-     },
-     "#play_button":
-     {
-         "images": {
-             "normal_image": {
-                 "path": "assets/play_button.png"
-             }
-         },
-         "hovered_image": {
-             "path": "assets/up_button.png"
-         }
-     },
      "defaults":
      {
          "colours":
