@@ -46,7 +46,7 @@ ineq_operator = CreateOperator(screen, "assets/ineq.png",
                                     ((GAME_FIELD_WIDTH + GAME_FIELD_POS_X)//2,
                                      (GAME_FIELD_HEIGHT + GAME_FIELD_POS_Y)//2), "IneqNode")
 operators.append(ineq_operator)
-eq_operator = CreateOperator(screen, "assets/rectangle.png",
+eq_operator = CreateOperator(screen, "assets/eq.png",
                                  (SCREEN_WIDTH // 16, 3 * SCREEN_HEIGHT // 5),
                                     ((GAME_FIELD_WIDTH + GAME_FIELD_POS_X)//2,
                                      (GAME_FIELD_HEIGHT + GAME_FIELD_POS_Y)//2), "eqNode")

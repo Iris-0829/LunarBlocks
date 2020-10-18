@@ -2,7 +2,6 @@ from components.commands.OperatorNode import OperatorNode
 from components.Shape import Shape
 from typing import Tuple
 import pygame
-
 """
 Warning: EqualityNode only works only if it's next_node is the OutNode.
 """
@@ -15,7 +14,7 @@ class EqualityNode(OperatorNode):
         Returns a tuple of a rectangle and image in the selected state.
         :return: Returns a tuple of (Rect, Image)
         """
-        sub_select_img = pygame.image.load("assets/square_select.png")
+        sub_select_img = pygame.image.load("assets/eq_select.png")
         sub_select_rect = sub_select_img.get_rect().move(*self.loc)
         return sub_select_rect, sub_select_img
 
@@ -37,4 +36,4 @@ class EqualityNode(OperatorNode):
             return 1  # error!
 
     def __init__(self, next_node, loc: Tuple[float, float]):
-        super().__init__(next_node, 2, loc, "assets/square.png")  # needs 2 operands
+        super().__init__(next_node, 2, loc, "assets/eq.png")  # needs 2 operands
