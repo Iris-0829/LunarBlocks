@@ -21,14 +21,17 @@ ui_man = pygame_gui.UIManager((SCREEN_WIDTH, SCREEN_HEIGHT), "theme.json")
 
 # ==========operator_select_field===========================
 
-up_button = pygame_gui.elements.UIButton(
-    relative_rect=pygame.Rect(SCREEN_WIDTH * 0.07, SCREEN_HEIGHT // 20, SCREEN_WIDTH * 0.05, SCREEN_HEIGHT * 0.05),
-    text='UP',
-    manager=ui_man)
-down_button = pygame_gui.elements.UIButton(
-    relative_rect=pygame.Rect(SCREEN_WIDTH * 0.07, SCREEN_HEIGHT * 0.8, SCREEN_WIDTH * 0.05, SCREEN_HEIGHT * 0.05),
-    text='Down',
-    manager=ui_man)
+up_button_img = pygame.image.load("assets/up_button.png")
+down_button_img = pygame.image.load("assets/down_button.png")
+play_button_img = pygame.image.load("assets/play_button.png")
+up_button_rect = up_button_img.get_rect(center=(SCREEN_WIDTH * 0.1, SCREEN_HEIGHT // 20))
+down_button_rect = down_button_img.get_rect(center=(SCREEN_WIDTH * 0.1, SCREEN_HEIGHT * 0.8))
+play_button_rect = play_button_img.get_rect(center=(SCREEN_WIDTH * 0.6, SCREEN_HEIGHT * 0.4))
+
+def draw_button(screen):
+    screen.blit(up_button_img, up_button_rect)
+    screen.blit(down_button_img, down_button_rect)
+    screen.blit(play_button_img, play_button_rect)
 
 #Spawn in middle of game field:
 operators = []
