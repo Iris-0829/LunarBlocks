@@ -1,15 +1,10 @@
-import pygame
 from pygame import gfxdraw
 import pygame_gui
-import math
-from enum import Enum
-from collections import defaultdict
 from operator_select import draw_layout
 from components.Addition import *
-from components.Subtraction import *
+from components.needs_node_version.Subtraction import *
 #from operator_select import *
 from components.CreateOperator import CreateOperator
-from data_manager import *
 from graph import *
 
 
