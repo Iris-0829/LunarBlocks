@@ -13,8 +13,10 @@ With [the Ontario Math Curriculum now adding a coding component to Grades 1-8](h
 ## What it does
 
 ## How we built it
+We hold group conference at the beginning of the hackathon, brainstormed, and come up with the idea to develop a game that benefits the younger students in computer science learning. Then we assigned task to every team member by grouping people into frontend and backend, and had online meetings to check the progress. By developing the game in python and pygame, we implemented the demo of LunarBlocks.
 
 ## Challenges we ran into
+We confronted challenges when we tried to connect UI with backend. We found that there was diversion on functionality of some classes.
 
 ## Accomplishments that we're proud of
 
