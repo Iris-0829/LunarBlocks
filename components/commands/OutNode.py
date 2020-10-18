@@ -18,5 +18,4 @@ class OutNode(Node):
 
     def __init__(self, loc: Tuple[float, float]):
         self.params = []
-        self.ports = ports
         super().__init__(loc, './assets/triangle.png')

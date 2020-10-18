@@ -9,7 +9,7 @@ from components.commands.OutNode import OutNode
 class TestCommandManager(unittest.TestCase):
 
     def setUp(self):
-        self.out = OutNode()
+        self.out = OutNode((0, 0))
         self.a1 = AdditionNode(next_node=self.out, loc=(0, 0))
         self.a2 = AdditionNode(next_node=self.a1, loc=(0, 0))
         self.s1 = Shape(None, '', 1, (5, 5), (0, 0, 0))
@@ -18,7 +18,8 @@ class TestCommandManager(unittest.TestCase):
 
         self.a = [self.a1, self.a2]
         self.ports = [(self.s1, self.a2), (self.s2, self.a2), (self.s3, self.a1)]
-        self.cm = CommandManager(ports=self.ports, op_nodes=self.a, out_node=self.out)
+        self.cm = CommandManager(ports=self.ports, op_nodes=self.a, out_node=self.out,
+                                 in_node_loc=(0, 0))
 
     def testExe(self):
         self.cm.reset()
@@ -33,7 +34,7 @@ class TestCommandManager(unittest.TestCase):
 
 
 if '__main__' == __name__:
-    out = OutNode()
+    out = OutNode((0, 0))
     a1 = AdditionNode(next_node=out, loc=(0, 0))
     a2 = AdditionNode(next_node=a1, loc=(0, 0))
     s1 = Shape(None, '', 1, (5, 5), (0, 0, 0))
@@ -45,5 +46,5 @@ if '__main__' == __name__:
     ports = [(s1, a2), (s2, a2), (s3, a1)]
     p1 = [s1, s2, s3]
     p2 = [a2, a2, a1]
-    ct = CommandTester(p2, a, out)
+    ct = CommandTester(p2, a, out, in_node_loc=(0, 0))
     print(ct.test_auto(p1, [s4]))
