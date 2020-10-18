@@ -2,6 +2,7 @@ from typing import Tuple
 import pygame
 from components.commands.AdditionNode import AdditionNode
 from components.commands.InequalityNode import InequalityNode
+from components.commands.EqualityNode import EqualityNode
 from graph import add_shape
 
 
@@ -53,6 +54,14 @@ class CreateOperator:
                 newOperator.add_input_port((0, 80))
                 newOperator.add_output_port((100, 0))
                 newOperator.add_output_port((100, 100))
+                s = newOperator.draw(self.screen)
+                add_shape(s[0], s[1], newOperator)
+            elif self.ope_type == "eqNode":
+                # create a new equalityNode operator
+                newOperator = EqualityNode(0, (650, 400))
+                newOperator.add_input_port((0, 20))
+                newOperator.add_input_port((0, 80))
+                newOperator.add_output_port((100, 50))
                 s = newOperator.draw(self.screen)
                 add_shape(s[0], s[1], newOperator)
 
