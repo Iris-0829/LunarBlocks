@@ -1,7 +1,6 @@
 from components.commands.CommandManager import CommandManager
 from components.commands.OutNode import OutNode
 from components.commands.InNode import InNode
-from typing import Tuple
 
 
 def verify(res: list, expected: list):
