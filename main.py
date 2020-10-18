@@ -23,20 +23,20 @@ ui_man = pygame_gui.UIManager((SCREEN_WIDTH, SCREEN_HEIGHT), "theme.json")
 
 up_button = pygame_gui.elements.UIButton(
     relative_rect=pygame.Rect(SCREEN_WIDTH * 0.07, SCREEN_HEIGHT // 20, SCREEN_WIDTH * 0.1, SCREEN_HEIGHT * 0.1),
-    text='UP',
+    text='',
     manager=ui_man,
     object_id=f"#up_button")
 
 
 down_button = pygame_gui.elements.UIButton(
     relative_rect=pygame.Rect(SCREEN_WIDTH * 0.07, SCREEN_HEIGHT * 0.8, SCREEN_WIDTH * 0.1, SCREEN_HEIGHT * 0.1),
-    text='Down',
+    text='',
     manager=ui_man,
     object_id=f"#down_button")
 
 play_button = pygame_gui.elements.UIButton(
     relative_rect=pygame.Rect(SCREEN_WIDTH * 0.55, SCREEN_HEIGHT * 0.4, SCREEN_WIDTH * 0.1, SCREEN_HEIGHT * 0.1),
-    text='Next Step',
+    text='',
     manager=ui_man,
     object_id=f"#play_button")
 
