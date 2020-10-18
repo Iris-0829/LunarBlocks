@@ -29,10 +29,10 @@ class GameScene(Scene):
         self.in_node = InNode(None, (GAME_FIELD_POS_X + 50, GAME_FIELD_POS_Y + (GAME_FIELD_HEIGHT//2) - 100), 2)
         self.out_node = OutNode(
             (GAME_FIELD_POS_X + 4*GAME_FIELD_WIDTH//5, GAME_FIELD_POS_Y +  (GAME_FIELD_HEIGHT//2) - 100), 1)
-        in_tup = self.in_node.draw(screen)
-        out_tup = self.out_node.draw(screen)
-        add_shape(in_tup[0], in_tup[1], self.in_node)
-        add_shape(out_tup[0], out_tup[1], self.out_node)
+        self.in_tup = self.in_node.draw(screen)
+        self.out_tup = self.out_node.draw(screen)
+        add_shape(self.in_tup[0], self.in_tup[1], self.in_node)
+        add_shape(self.out_tup[0], self.out_tup[1], self.out_node)
 
         self.tests = self.construct_test_set(level_data["tests"])
 
@@ -65,7 +65,6 @@ class GameScene(Scene):
                     return            
             expect = []
             for type_of in output:
-                print(type_of)
                 if type_of == "bool":
                     for v in output[type_of]:
                         val = output[type_of][v]
