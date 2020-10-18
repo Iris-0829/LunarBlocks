@@ -17,6 +17,11 @@ The draw method will return loaded img for the operator, The user can blit it on
 screen as such screen.blit(Adder.draw(), Adder.startPointx, Adder.startPointy
 
 '''
+
+"""
+Delete?
+"""
+
 class Addition(Operator):
     def __init__(self, side: int, x: int, y: int):
         """

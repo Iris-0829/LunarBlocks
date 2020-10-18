@@ -1,8 +1,27 @@
 from components.commands.OperatorNode import OperatorNode
 from components.Shape import Shape
+import pygame
 
 
 class AdditionNode(OperatorNode):
+
+    def draw(self):
+        """
+        Returns a tuple of a rectangle and image.
+        :return: Returns a tuple of (Rect, Image)
+        """
+        sub_img = pygame.image.load("assets/rectangle.png")
+        sub_img_rect = sub_img.get_rect().move(*self.loc)
+        return sub_img_rect, sub_img
+
+    def selected(self):
+        """
+        Returns a tuple of a rectangle and image in the selected state.
+        :return: Returns a tuple of (Rect, Image)
+        """
+        sub_select_img = pygame.image.load("assets/rectangle_select.png")
+        sub_select_rect = sub_select_img.get_rect().move(*self.loc)
+        return sub_select_rect, sub_select_img
 
     def execute(self):
         """
@@ -21,5 +40,5 @@ class AdditionNode(OperatorNode):
         except TypeError:
             return 1  # error!
 
-    def __init__(self, next_node):
-        super().__init__(next_node, 2)  # needs 2 operands
+    def __init__(self, next_node, loc):
+        super().__init__(next_node, 2, loc)  # needs 2 operands

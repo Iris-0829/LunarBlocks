@@ -2,6 +2,7 @@ import pygame
 from typing import Tuple
 import math
 
+
 class Operand(pygame.sprite.Sprite):
 
     def update(self):

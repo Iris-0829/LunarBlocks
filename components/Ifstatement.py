@@ -17,6 +17,11 @@ The draw method will return loaded img for the operator, The user can blit it on
 screen as such screen.blit(Ifstatement.draw(), Ifstatement.startPointx, Ifstatement.startPointy
 
 '''
+
+"""
+Should delete? after transferring methods over to the IfNode.
+"""
+
 class Ifstatement(Operator):
     def __init__(self, width: int, height :int, startPointx: int, startPointy: int):
         """

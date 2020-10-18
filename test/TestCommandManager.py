@@ -4,8 +4,8 @@ from components.Shape import Shape
 from components.commands.OutNode import OutNode
 
 out = OutNode()
-a1 = AdditionNode(next_node=out)
-a2 = AdditionNode(next_node=a1)
+a1 = AdditionNode(next_node=out, loc=(0, 0))
+a2 = AdditionNode(next_node=a1, loc=(0, 0))
 s1 = Shape(None, '', 1, (5, 5), (0, 0, 0))
 s2 = Shape(None, '', 2, (5, 5), (0, 0, 0))
 s3 = Shape(None, '', 3, (5, 5), (0, 0, 0))

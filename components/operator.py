@@ -2,6 +2,10 @@ import pygame
 from pygame.locals import *
 import abc
 
+"""
+Delete?
+"""
+
 class Operator(pygame.sprite.Sprite):
     __metaclass__ = abc.ABCMeta
     def __init__(self, side : int, startPointx : int, startPointy : int):

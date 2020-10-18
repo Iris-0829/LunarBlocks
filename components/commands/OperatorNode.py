@@ -21,9 +21,10 @@ class OperatorNode:
             self.params.append(operand)
         print("Warning: Adding too many parameters here.")
 
-    def __init__(self, next_node, num_params):
+    def __init__(self, next_node, num_params, loc):
         self.params = []
         self.output = None
         self.next_node = next_node
         self.num_params = num_params
         self.passed = False
+        self.loc = loc
