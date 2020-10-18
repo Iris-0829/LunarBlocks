@@ -15,8 +15,16 @@ class CreateOperator:
         self.draggable_operator = []
         self.is_on = False
 
+        self.upper_limit = 100
+        self.lower_limit = 500
+
     def change_loc(self, change_height):
-        self.loc = (self.loc[0], self.loc[1] - change_height)
+        if self.upper_limit <= self.loc[1] <= self.lower_limit:
+            self.loc = (self.loc[0], self.loc[1] - change_height)
+        elif self.upper_limit >= self.loc[1]:
+            self.loc = (self.loc[0], self.upper_limit)
+        else:
+            self.loc = (self.loc[0], self.lower_limit)
 
 
     def display(self):
