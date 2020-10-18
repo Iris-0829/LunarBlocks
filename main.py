@@ -22,24 +22,17 @@ ui_man = pygame_gui.UIManager((SCREEN_WIDTH, SCREEN_HEIGHT), "theme.json")
 
 # ==========operator_select_field===========================
 
-up_button = pygame_gui.elements.UIButton(
-    relative_rect=pygame.Rect(SCREEN_WIDTH * 0.07, SCREEN_HEIGHT // 20, SCREEN_WIDTH * 0.1, SCREEN_HEIGHT * 0.1),
-    text='',
-    manager=ui_man,
-    object_id=f"#up_button")
+up_button_img = pygame.image.load("assets/up_button.png")
+down_button_img = pygame.image.load("assets/down_button.png")
+play_button_img = pygame.image.load("assets/play_button.png")
+up_button_rect = up_button_img.get_rect(center=(SCREEN_WIDTH * 0.1, SCREEN_HEIGHT // 20))
+down_button_rect = down_button_img.get_rect(center=(SCREEN_WIDTH * 0.1, SCREEN_HEIGHT * 0.8))
+play_button_rect = play_button_img.get_rect(center=(SCREEN_WIDTH * 0.6, SCREEN_HEIGHT * 0.4))
 
-
-down_button = pygame_gui.elements.UIButton(
-    relative_rect=pygame.Rect(SCREEN_WIDTH * 0.07, SCREEN_HEIGHT * 0.8, SCREEN_WIDTH * 0.1, SCREEN_HEIGHT * 0.1),
-    text='',
-    manager=ui_man,
-    object_id=f"#down_button")
-
-play_button = pygame_gui.elements.UIButton(
-    relative_rect=pygame.Rect(SCREEN_WIDTH * 0.55, SCREEN_HEIGHT * 0.4, SCREEN_WIDTH * 0.1, SCREEN_HEIGHT * 0.1),
-    text='',
-    manager=ui_man,
-    object_id=f"#play_button")
+def draw_button(screen):
+    screen.blit(up_button_img, up_button_rect)
+    screen.blit(down_button_img, down_button_rect)
+    screen.blit(play_button_img, play_button_rect)
 
 #Spawn in middle of game field:
 operators = []
@@ -107,16 +100,17 @@ def game_loop():
 
             if event.type == pygame.MOUSEBUTTONUP:
                 scroll.release()
+                if up_button_rect.collidepoint(event.pos):
+                    print("click up button")
+                    square_operator.change_loc(SCREEN_HEIGHT // 50)
+                elif down_button_rect.collidepoint(event.pos):
+                    square_operator.change_loc(-SCREEN_HEIGHT // 50)
+                # elif play_button_rect.collidepoint(event.pos):
+                    # mouse click play_button
+
             
             if event.type == pygame.MOUSEMOTION:
                 scroll.update_loc(event.pos)
-
-            if event.type == pygame.USEREVENT:
-                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
-                    if event.ui_element == up_button:
-                        square_operator.change_loc(SCREEN_HEIGHT // 50)
-                    elif event.ui_element == down_button:
-                        square_operator.change_loc(-SCREEN_HEIGHT // 50)
            
             #if event == pygame.MOUSEBUTTONDOWN:
             ui_man.process_events(event)
@@ -142,8 +136,8 @@ def game_loop():
 
             for line in lines:  
                 arrow(screen, (255,255,255), (255,255,255), lines[line][0], lines[line][1], 10, 5)
-            
-            
+
+            draw_button(screen)
             pygame.display.flip()
 
 game_loop()
