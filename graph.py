@@ -1,6 +1,29 @@
 import pygame
 from data_manager import * 
-
+from typing import List, Tuple
+def drawAng(screen, angle, pos):
+    nar=pygame.transform.rotate(arrow,angle)
+    nrect=nar.get_rect(center=pos)
+    screen.blit(nar, nrect)
+def make_arrow(screen, shape1, shape2):
+    '''
+    Shape1 and Shape2 are 3 tuples of (Rect_obj, shape_img, operatorNode)
+    '''
+    pos1 = Pos1
+    pos2 = Pos2
+    pygame.draw.line(screen, (255,255,255), pos1, pos2)
+    arrow = pygame.Surface((25,25))
+    arrow.fill((255,255,255))
+    pygame.draw.line(arrow, (0,0,0), (0,0), (25/2,25/2))
+    pygame.draw.line(arrow, (0,0,0), (0,25), (25/2,25/2))
+    arrow.set_colorkey((0, 0, 0))       
+    angle=math.atan2(-(pos1[1]-pos2[1]), pos1[0]-pos2[0])
+    ##Note that in pygame y=0 represents the top of the screen
+    ##So it is necessary to invert the y coordinate when using math
+    angle=math.degrees(angle)
+    angle+=180
+    drawAng(angle, pos2)            
+                    
 def add_line(shape1, shape2):
     # create line between shapes.
     global SHAPE_ID
@@ -18,9 +41,9 @@ def add_line(shape1, shape2):
     return
 
 
-def add_shape(shape, shape_img, operator):
+def add_shape(Rect_obj, shape_img, operator):
     global SHAPE_ID
-    shapes[SHAPE_ID] = [shape, shape_img, operator]
+    shapes[SHAPE_ID] = [Rect_obj, shape_img, operator]
     SHAPE_ID += 1
 
 

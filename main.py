@@ -65,7 +65,7 @@ def arrow(screen, lcolor, tricolor, start, end, trirad, thickness=2):
 # ================================================================
 for i in range(2):
     add = AdditionNode(0, (600, 600))
-    s = add.draw()
+    s = add.draw(screen)
     add_shape(s[0], s[1], add)
 #for i in range(2):
 #    sub = Subtraction(0, 600, 600)
