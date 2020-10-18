@@ -126,10 +126,12 @@ def graph_draw(event, screen):
             #move shape and snap to grid
             print("moving")
             m_x, m_y = event.pos
-            p_x = round((m_x + offset_x) /
-                            grid_square_size)*grid_square_size
-            p_y = round((m_y + offset_y) /
-                            grid_square_size)*grid_square_size
+            p_x = m_x + offset_x
+            p_y = m_y + offset_y
+            #p_x = round((m_x + offset_x) /
+            #                grid_square_size)*grid_square_size
+            #p_y = round((m_y + offset_y) /
+            #                grid_square_size)*grid_square_size
 
             #Make sure shape is in bounds
             if (p_x < (GAME_FIELD_POS_X + GAME_FIELD_WIDTH) and p_x > (GAME_FIELD_POS_X) and p_y > GAME_FIELD_POS_Y):

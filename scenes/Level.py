@@ -34,8 +34,8 @@ class GameScene(Scene):
         add_shape(in_tup[0], in_tup[1], self.in_node)
         add_shape(out_tup[0], out_tup[1], self.out_node)
 
-        self.tests = level_data["tests"]
-        self.run_tests()
+        self.tests = self.construct_test_set(level_data["tests"])
+
 
 
 
@@ -45,14 +45,12 @@ class GameScene(Scene):
     def get_operators(self):
         return [shapes[shape_id][2] for shape_id in shapes]
 
-    def run_tests(self): 
-        self.cmd_tester = CommandTester(self.in_node, self.out_node, self.get_operators())
-
+    def construct_test_set(self, tests): 
         #test_dict is of the form {"test_n": [input, output]}
         test_dict = {}
 
-        for test_n in self.tests:
-            test = self.tests[test_n]
+        for test_n in tests:
+            test = tests[test_n]
             #Parse operands:
             input = test["input"]
             output = test["output"]
@@ -87,8 +85,18 @@ class GameScene(Scene):
                             print("Error in level file output: level_" +str(self.level))
                             return
             test_dict[test_n] = [shape_list, expect]
-           
-        self.cmd_man = self.cmd_tester.test(shape_list)
+        
+        return test_dict
+    
+    def run_test(self, n):
+        self.cmd_tester = CommandTester(self.in_node, self.out_node, self.get_operators())
+        test = []
+        try:
+            test = self.tests["test_" + str(n)]
+        except:
+            print("Test does not exist!")
+        
+        self.cmd_man = self.cmd_tester.test()
 
 
 
