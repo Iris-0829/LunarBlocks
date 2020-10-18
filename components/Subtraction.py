@@ -22,7 +22,7 @@ class Subtraction(Operator):
         self.x = x
         self.y = y
         self.draggable = True
-        super().__init__(side, x, y, draggable)
+        super().__init__(side, x, y)
 
     def do_operation(self, num_1: int, num_2: int) -> int:
         """

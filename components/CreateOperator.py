@@ -15,6 +15,10 @@ class CreateOperator:
         self.draggable_operator = []
         self.is_on = False
 
+    def change_loc(self, change_height):
+        self.loc = (self.loc[0], self.loc[1] - change_height)
+
+
     def display(self):
         # draw img at loc
         self.screen.blit(self.img, self.loc)
