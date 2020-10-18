@@ -16,13 +16,15 @@ class Node:
         loc = (self.loc[0] + relative_loc[0], self.loc[1] + relative_loc[1])
         pygame.draw.circle(screen, color, loc, radius)
 
-    def draw(self, screen):
+    def draw(self, screen, rotate=0):
         """
         Returns a tuple of a rectangle and image.
         :return: Returns a tuple of (Rect, Image)
         """
         sub_img = pygame.image.load(self.filename_img)
+        sub_img = pygame.transform.rotate(sub_img, rotate)
         sub_img_rect = sub_img.get_rect().move(*self.loc)
+        
 
         # draw ports
         for port_rel_loc in self.input_ports + self.output_ports:

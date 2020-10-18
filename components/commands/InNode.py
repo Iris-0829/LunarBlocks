@@ -36,7 +36,7 @@ class InNode(Node):
         self.ports = []  # ensures its not called again? remove if needed.
     
     def selected(self):
-        in_select_img = pygame.image.load("./assets/square_in.png")
+        in_select_img = pygame.image.load("./assets/square_in_select.png")
         in_select_rect = in_select_img.get_rect().move(*self.loc)
         return in_select_rect, in_select_img
 

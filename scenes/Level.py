@@ -32,7 +32,7 @@ class GameScene(Scene):
         in_tup = self.in_node.draw(screen)
         out_tup = self.out_node.draw(screen)
         add_shape(in_tup[0], in_tup[1], self.in_node)
-        add_shape(out_tup[0], pygame.transform.rotate(out_tup[1], 180), self.in_node)
+        add_shape(out_tup[0], out_tup[1], self.out_node)
 
         self.tests = level_data["tests"]
         self.run_tests()
